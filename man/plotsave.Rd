@@ -29,6 +29,13 @@ plotsave(
 \description{
 Save the current graph or a specific plot item to device.
 }
+\examples{
+df <- data.frame(x = 1:5, y = 6:10)
+plot(df)
+g <- ggplot(df) + geom_point(aes(x, y))
+plotsave(open = TRUE)
+plotsave(g, "pptx", "myggplot")
+}
 \author{
 Yujie Liu
 }

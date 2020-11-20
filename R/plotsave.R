@@ -9,6 +9,7 @@
 #' @param width graph width
 #' @param open whether to open graph file after saving, default FALSE
 #'
+#' @import tidyverse
 #' @import eoffice
 #' @import export
 #' @import rvcheck
@@ -16,8 +17,7 @@
 #' @author Yujie Liu
 #' @export
 #'
-#' @example
-#' library(ggplot2)
+#' @examples
 #' df <- data.frame(x = 1:5, y = 6:10)
 #' plot(df)
 #' g <- ggplot(df) + geom_point(aes(x, y))
