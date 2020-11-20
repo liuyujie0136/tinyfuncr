@@ -8,8 +8,8 @@
 #' @param height graph height
 #' @param width graph width
 #' @param open whether to open graph file after saving, default FALSE
+#' @param ... other arguments used in package "export"
 #'
-#' @import tidyverse
 #' @import eoffice
 #' @import export
 #' @import rvcheck
@@ -27,34 +27,38 @@
 
 
 plotsave <- function(plot = NULL, type = "pdf", filename = NULL,
-                     height = 6, width = 6, open = FALSE){
+                     height = 6, width = 6, open = FALSE, ...){
 
   if (is.null(filename)){
     t <- as.character(Sys.time())
     t <- gsub(" |:", "-", t)
-    fname <- paste0("Rplot-", t, ".", type)
+    fname <- paste0("Rplot-", t)
   } else {
-    fname <- paste0(filename, ".", type)
+    fname <- filename
   }
 
   if (type %in% c("pdf", "eps", "svg")){
     savefun <- function(...) graph2vector(...)
   } else if (type %in% c("ppt", "doc", "pptx", "docx")){
     type <- switch(type,
-                   "pptx" = "ppt",
-                   "docx" = "doc",
-                   ... = type)
+                  "pptx" = "ppt",
+                  "docx" = "doc",
+                  type)
     savefun <- function(...) graph2office(...)
   } else if (type %in% c("png", "jpg", "jpeg", "tif")){
     type <- switch(type,
                    "jpeg" = "jpg",
-                   ... = type)
+                   type)
     savefun <- function(...) graph2bitmap(...)
   } else if (type == "html"){
+    fname <- paste0(fname, ".html")
     if (is.null(plot)){
       tohtml(filename = fname)
     } else {
       tohtml(figure = plot, filename = fname)
+    }
+    if (open){
+      o(fname)
     }
     return("File saved!")
   } else {
@@ -62,10 +66,10 @@ plotsave <- function(plot = NULL, type = "pdf", filename = NULL,
   }
 
   savefun(x = plot, file = fname, type = type,
-            height = height, width = width)
+            height = height, width = width, ...)
 
   if (open){
-    o(fname)
+    o(dir(pattern = fname))
   }
 
   return("File saved!")

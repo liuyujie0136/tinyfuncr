@@ -5,7 +5,7 @@ Description: tiny R functions for self-practice and handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
 Version: 0.0.1
-Imports: tidyverse, eoffice, export (>= 0.3.0), rvcheck
+Imports: eoffice, export (>= 0.3.0), rvcheck
 License: MIT
 Encoding: UTF-8
 LazyData: true

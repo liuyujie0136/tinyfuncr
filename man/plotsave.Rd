@@ -10,7 +10,8 @@ plotsave(
   filename = NULL,
   height = 6,
   width = 6,
-  open = FALSE
+  open = FALSE,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ plotsave(
 \item{width}{graph width}
 
 \item{open}{whether to open graph file after saving, default FALSE}
+
+\item{...}{other arguments used in package "export"}
 }
 \description{
 Save the current graph or a specific plot item to device.
