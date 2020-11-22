@@ -8,7 +8,7 @@ plotsave(
   plot = NULL,
   type = "pdf",
   filename = NULL,
-  height = 6,
+  height = 5,
   width = 6,
   open = FALSE,
   ...
@@ -17,20 +17,20 @@ plotsave(
 \arguments{
 \item{plot}{a given plot object or current plot (default).}
 
-\item{type}{file type, in "pdf", "eps", "svg", "ppt(x)", "doc(x)", "png", "jp(e)g", "tif", "html". Note: "html" type work for ggplot2 object only.}
+\item{type}{file type, in "pdf", "eps", "svg", "ppt(x)", "doc(x)", "png", "jp(e)g", "tif", "html". Note: "html" type will return a plotly object, so it works for ggplot2 object only.}
 
 \item{filename}{file name, without suffix. Default: combines "Rplot" and current time together}
 
-\item{height}{graph height}
+\item{height}{graph height, default 5 (especially for plots with legend on the side)}
 
-\item{width}{graph width}
+\item{width}{graph width, default 6}
 
 \item{open}{whether to open graph file after saving, default FALSE}
 
 \item{...}{other arguments used in package "export"}
 }
 \description{
-Save the current graph or a specific plot item to device.
+Save the current graph or a specific plot object to device.
 }
 \examples{
 df <- data.frame(x = 1:5, y = 6:10)

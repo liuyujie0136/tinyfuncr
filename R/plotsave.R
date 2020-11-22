@@ -1,12 +1,12 @@
 #' Save plot to device with various formats
 #'
-#' @description Save the current graph or a specific plot item to device.
+#' @description Save the current graph or a specific plot object to device.
 #'
 #' @param plot a given plot object or current plot (default).
-#' @param type file type, in "pdf", "eps", "svg", "ppt(x)", "doc(x)", "png", "jp(e)g", "tif", "html". Note: "html" type work for ggplot2 object only.
+#' @param type file type, in "pdf", "eps", "svg", "ppt(x)", "doc(x)", "png", "jp(e)g", "tif", "html". Note: "html" type will return a plotly object, so it works for ggplot2 object only.
 #' @param filename file name, without suffix. Default: combines "Rplot" and current time together
-#' @param height graph height
-#' @param width graph width
+#' @param height graph height, default 5 (especially for plots with legend on the side)
+#' @param width graph width, default 6
 #' @param open whether to open graph file after saving, default FALSE
 #' @param ... other arguments used in package "export"
 #'
@@ -27,7 +27,7 @@
 
 
 plotsave <- function(plot = NULL, type = "pdf", filename = NULL,
-                     height = 6, width = 6, open = FALSE, ...){
+                     height = 5, width = 6, open = FALSE, ...){
 
   if (is.null(filename)){
     t <- as.character(Sys.time())
