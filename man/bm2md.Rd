@@ -4,23 +4,32 @@
 \alias{bm2md}
 \title{Convert html format bookmarks to markdown}
 \usage{
-bm2md(file, out = "bookmarks", add.rules = NULL)
+bm2md(
+  file = dir(pattern = ".html$")[1],
+  out = "bookmarks",
+  safari = FALSE,
+  add.rules = NULL
+)
 }
 \arguments{
-\item{file}{bookmarks file in html format, exported from Microsoft Edge or Google Chrome. Default: first html file in current directory}
+\item{file}{bookmarks file in html format. Default: first html file in the current directory}
 
 \item{out}{output markdown file's name, without suffix}
+
+\item{safari}{whether this file is exported from MacOS Safari, default FALSE}
 
 \item{add.rules}{additional rules for some strange items. It should be a data frame or a tibble, with first column being "pattern", second being "replacement" (used in function stringr::str_replace_all()). All items should be written in string form of regular expression.}
 }
 \description{
-Convert html format bookmarks to markdown. Useful especially in publishing it on GitHub. Only bookmarks files exported from Microsoft Edge (old version) or Google Chrome are supported now.
+Convert html format bookmarks to markdown. Useful especially in publishing it on GitHub. Only bookmarks files exported from Microsoft Edge, Google Chrome and Safari are supported now.
 }
 \examples{
 file <- "~/myfile/mybookmarks.html"
 bm2md(file)
 
-df <- tibble(x = c('.+HREF="(.+)" (LAST|ADD).+>(.+)', "test"), c("* [\\\\3](\\\\1)", "TEST"))
+df <-
+  tibble(x = c('.+HREF="(.+)" (LAST|ADD).+>(.+)', "test"),
+         c("* [\\\\3](\\\\1)", "TEST"))
 bm2md(file, add.rules = df)
 }
 \author{
