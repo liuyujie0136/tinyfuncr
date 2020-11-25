@@ -1,4 +1,4 @@
-#' IGViewer
+#' Web-based IGViewer
 #'
 #' @description Use igv.min.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
 #'
@@ -24,39 +24,51 @@
 #'   data.frame(
 #'     name = c("THA1", "THA2"),
 #'     url = c(
-#'       system.file(
-#'         "extdata",
-#'         "THA1_sorted.bam",
-#'         package = "tinyfuncr",
-#'         mustWork = TRUE
+#'       paste0(
+#'         "file:///",
+#'         system.file(
+#'           "extdata",
+#'           "THA1_sorted.bam",
+#'           package = "tinyfuncr",
+#'           mustWork = TRUE
+#'         )
 #'       ),
-#'       system.file(
-#'         "extdata",
-#'         "THA2_sorted.bam",
-#'         package = "tinyfuncr",
-#'         mustWork = TRUE
+#'       paste0(
+#'         "file:///",
+#'         system.file(
+#'           "extdata",
+#'           "THA2_sorted.bam",
+#'           package = "tinyfuncr",
+#'           mustWork = TRUE
+#'         )
 #'       )
 #'     ),
 #'     index = c(
-#'       system.file(
-#'         "extdata",
-#'         "THA1_sorted.bam.bai",
-#'         package = "tinyfuncr",
-#'         mustWork = TRUE
+#'       paste0(
+#'         "file:///",
+#'         system.file(
+#'           "extdata",
+#'           "THA1_sorted.bam.bai",
+#'           package = "tinyfuncr",
+#'           mustWork = TRUE
+#'         )
 #'       ),
-#'       system.file(
-#'         "extdata",
-#'         "THA2_sorted.bam.bai",
-#'         package = "tinyfuncr",
-#'         mustWork = TRUE
+#'       paste0(
+#'         "file:///",
+#'         system.file(
+#'           "extdata",
+#'           "THA2_sorted.bam.bai",
+#'           package = "tinyfuncr",
+#'           mustWork = TRUE
+#'         )
 #'       )
 #'     ),
 #'     stringsAsFactors = FALSE
 #'   )
 #'
-#'  igviewer(refmake = TRUE,
-#'           refid = "sacCer3",
-#'           align = align)
+#' igviewer(refmake = TRUE,
+#'          refid = "sacCer3",
+#'          align = align)
 
 
 igviewer <-

@@ -11,7 +11,7 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 
 * `plotsave`: Save plot to device with various formats
 * `bm2md`: Convert html format bookmarks to markdown
-* `igviewer`: IGViewer
+* `igviewer`: Web-based IGViewer
   * `getigvtable`: Get IGV online reference genomes table
   * `makeigvref`: Make IGV reference genome information
 
