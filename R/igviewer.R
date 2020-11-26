@@ -1,6 +1,6 @@
 #' Web-based IGViewer
 #'
-#' @description Use igv.min.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
+#' @description Use igv.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
 #'
 #' @param ref a one-row data frame containing Reference Genome's information: name in the first column, fastaURL in the second, indexURL in the third. Note: URL can be an address to local files.
 #' @param refmake whether to make reference information from function makeigvref(), default FALSE
@@ -12,7 +12,6 @@
 #' @param seg a multi-row data frame containing Segmented Copy Number Tracks' information: name in the first column, url in the second
 #' @param gwas a multi-row data frame containing GWAS Tracks' information: name in the first column, url in the second
 #' @param out output file name, without suffix
-#' @param online whether to use online igv.min.js as script
 #'
 #' @importFrom utils write.table
 #' @importFrom rvcheck o
@@ -81,21 +80,7 @@ igviewer <-
            wig = NULL,
            seg = NULL,
            gwas = NULL,
-           out = "IGViewer",
-           online = TRUE) {
-
-
-    jsfile <-
-      ifelse (
-        online,
-        "https://igv.org/web/release/2.7.1/dist/igv.min.js",
-        system.file(
-          "extdata",
-          "igv.min.js",
-          package = "tinyfuncr" ,
-          mustWork = TRUE
-        )
-      )
+           out = "IGViewer") {
 
     header <- data.frame(
       data = c(
@@ -104,7 +89,7 @@ igviewer <-
         '<meta charset="UTF-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
         '<title>IGViewer</title>',
-        paste0('<script src="', jsfile, '"></script>'),
+        '<script src="https://cdn.jsdelivr.net/npm/igv@2.7.2/dist/igv.js"></script>',  # OR:https://igv.org/web/release/2.7.1/dist/igv.min.js
         '</head>',
         '<body>',
         '<div id="igv-div"></div>',
@@ -121,7 +106,7 @@ igviewer <-
       if (!is.null(refid)) {
         refer <- data.frame(data = makeigvref(refid))
       } else {
-        return("No reference ID!")
+        return("ERROR: No reference ID!")
       }
     } else {
       refer <- data.frame(data = c(

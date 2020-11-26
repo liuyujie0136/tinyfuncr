@@ -14,8 +14,7 @@ igviewer(
   wig = NULL,
   seg = NULL,
   gwas = NULL,
-  out = "IGViewer",
-  online = TRUE
+  out = "IGViewer"
 )
 }
 \arguments{
@@ -38,11 +37,9 @@ igviewer(
 \item{gwas}{a multi-row data frame containing GWAS Tracks' information: name in the first column, url in the second}
 
 \item{out}{output file name, without suffix}
-
-\item{online}{whether to use online igv.min.js as script}
 }
 \description{
-Use igv.min.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
+Use igv.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
 }
 \examples{
 align <-
