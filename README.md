@@ -14,6 +14,7 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `igviewer`: Web-based IGViewer
   * `getigvtable`: Get IGV online reference genomes table
   * `makeigvref`: Make IGV reference genome information
+* `sam2bed`: Convert SAM/BAM file to BED
 
 ## Bugs
 
