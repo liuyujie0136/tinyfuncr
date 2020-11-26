@@ -1,6 +1,6 @@
 # tinyfuncr <img src="logo-tinyfuncr.png" width=200 align="right" />
 
-tiny R functions for self-practice and handy use.
+An R package containing some tiny functions for self-practice and handy use.
 
 ## Installation
 

@@ -27,9 +27,13 @@ Convert html format bookmarks to markdown. Useful especially in publishing it on
 file <- "~/myfile/mybookmarks.html"
 bm2md(file)
 
-df <-
-  tibble(x = c('.+HREF="(.+)" (LAST|ADD).+>(.+)', "test"),
-         c("* [\\\\3](\\\\1)", "TEST"))
+df <- tibble(x = c(
+          '.+HREF="(.+)" (LAST|ADD).+>(.+)',
+          "test"
+          ), c(
+          "* [\\\\3](\\\\1)",
+          "TEST"
+          ))
 bm2md(file, add.rules = df)
 }
 \author{

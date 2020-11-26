@@ -31,7 +31,9 @@ bamfile <- system.file(
            )
 
 sam2bed(input = samfile, output = "THA2")
-gr <- sam2bed(input = bamfile, output = "THA2_sorted", gr = TRUE)
+gr <- sam2bed(input = bamfile,
+              output = "THA2_sorted",
+              gr = TRUE)
 }
 \author{
 Yujie Liu

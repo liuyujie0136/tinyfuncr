@@ -10,9 +10,9 @@
 #' @param open whether to open graph file after saving, default FALSE
 #' @param ... other arguments used in package "export"
 #'
-#' @import eoffice
 #' @import export
-#' @import rvcheck
+#' @import eoffice
+#' @importFrom rvcheck o
 #'
 #' @author Yujie Liu
 #' @export

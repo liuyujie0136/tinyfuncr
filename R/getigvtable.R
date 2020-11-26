@@ -4,7 +4,7 @@
 #'
 #' @import readr
 #' @import stringr
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @importFrom stats na.omit
 #'
 #' @author Yujie Liu

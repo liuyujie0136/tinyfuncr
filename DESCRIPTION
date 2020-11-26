@@ -4,20 +4,19 @@ Title: tiny R functions
 Description: tiny R functions for self-practice and handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
-Version: 0.0.4
+Version: 0.0.5
 Imports: 
+  export,
   eoffice,
-  export (>= 0.3.0),
   rvcheck,
   readr,
   stringr,
-  tibble,
   magrittr,
   purrr,
   Rsamtools,
   IRanges,
   GenomicRanges
-License: GPL-3.0
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

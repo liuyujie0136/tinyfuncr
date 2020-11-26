@@ -8,11 +8,11 @@
 #'
 #' @import readr
 #' @import stringr
-#' @import magrittr
-#' @import purrr
-#' @import Rsamtools
-#' @import IRanges
-#' @import GenomicRanges
+#' @importFrom magrittr %>%
+#' @importFrom purrr map_chr map_int
+#' @importFrom Rsamtools scanBam
+#' @importFrom IRanges IRanges
+#' @importFrom GenomicRanges GRanges
 #' @importFrom utils tail
 #'
 #' @author Yujie Liu
@@ -33,7 +33,9 @@
 #'            )
 #'
 #' sam2bed(input = samfile, output = "THA2")
-#' gr <- sam2bed(input = bamfile, output = "THA2_sorted", gr = TRUE)
+#' gr <- sam2bed(input = bamfile,
+#'               output = "THA2_sorted",
+#'               gr = TRUE)
 
 
 sam2bed <- function(input, output, gr = FALSE) {

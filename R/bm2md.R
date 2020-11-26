@@ -9,7 +9,6 @@
 #'
 #' @import readr
 #' @import stringr
-#' @import tibble
 #' @importFrom utils write.table
 #'
 #' @author Yujie Liu
@@ -19,9 +18,13 @@
 #' file <- "~/myfile/mybookmarks.html"
 #' bm2md(file)
 #'
-#' df <-
-#'   tibble(x = c('.+HREF="(.+)" (LAST|ADD).+>(.+)', "test"),
-#'          c("* [\\3](\\1)", "TEST"))
+#' df <- tibble(x = c(
+#'           '.+HREF="(.+)" (LAST|ADD).+>(.+)',
+#'           "test"
+#'           ), c(
+#'           "* [\\3](\\1)",
+#'           "TEST"
+#'           ))
 #' bm2md(file, add.rules = df)
 
 
