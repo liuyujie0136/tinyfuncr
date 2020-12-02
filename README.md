@@ -15,6 +15,8 @@ devtools::install_github("liuyujie0136/tinyfuncr")
   * `getigvtable`: Get IGV online reference genomes table
   * `makeigvref`: Make IGV reference genome information
 * `sam2bed`: Convert SAM/BAM file to BED
+* `toUTF8`: Convert file(s) with different encoding(s) to UTF-8
+* `LeapCal`: Leap-year calendar
 
 ## Bugs
 

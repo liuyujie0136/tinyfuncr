@@ -88,10 +88,7 @@ sam2bed <- function(input, output, gr = FALSE) {
     bedf <-
       data.frame(
         chrom = bedfraw$rname,
-        chromStart = bedfraw$pos - 1L,
-        # This may be a mistake made by samtools,
-        # since both BAM and BED files are 0-indexed,
-        # while SAM being 1-indexed.
+        chromStart = bedfraw$pos - 1L,  # SAM and BAM are both 1-indexed
         chromEnd = bedfraw$pos - 1L + bedfraw$qwidth,
         name = bedfraw$qname,
         score = bedfraw$mapq,
