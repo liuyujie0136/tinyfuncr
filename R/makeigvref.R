@@ -45,10 +45,15 @@ makeigvref <- function(refid) {
   reftable <- na.omit(reftable)
   colnames(reftable) <- "data"
 
-  ref <- reftable[str_detect(reftable[, 1], refid), 1]
+  detectid <- str_c('"id":"', refid, '"', sep = "")
 
-  refer <- str_c('reference: {', ref, '},', sep = "")
+  ref <- reftable[str_detect(reftable[, 1], detectid), 1]
 
-  return(refer)
+  if (length(ref) != 0) {
+    refer <- str_c('reference: {', ref, '},', sep = "")
+    return(refer)
+  } else {
+    stop("No such reference ID! Please check it carefully!")
+  }
 
 }

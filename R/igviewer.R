@@ -2,15 +2,15 @@
 #'
 #' @description Use igv.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
 #'
-#' @param ref a one-row data frame containing Reference Genome's information: name in the first column, fastaURL in the second, indexURL in the third. Note: URL can be an address to local files.
+#' @param ref a one-row data frame containing Reference Genome's information: NAME in the first column, fastaURL in the second, indexURL in the third. Note: URL can be an address to local files, relative files location is acceptable, but absolute files address should add "file:///" before "C:/" etc in Windows system (See Example part for more information).
 #' @param refmake whether to make reference information from function makeigvref(), default FALSE
 #' @param refid if you set refmake as TRUE, provide reference genome id
-#' @param anno a one-row data frame containing Annotation Track's information: name in the first column, url in the second. Note: if you set refmake as TRUE, you don't need to provide annotation information.
-#' @param align a multi-row data frame containing Alignment Tracks' information: name in the first column, url in the second, indexURL in the third. Note: set stringsAsFactors = FALSE in data frame is preferred.
-#' @param var a multi-row data frame containing Variant Tracks' information: name in the first column, url in the second, indexURL in the third
-#' @param wig a multi-row data frame containing WIG Tracks' information: name in the first column, url in the second
-#' @param seg a multi-row data frame containing Segmented Copy Number Tracks' information: name in the first column, url in the second
-#' @param gwas a multi-row data frame containing GWAS Tracks' information: name in the first column, url in the second
+#' @param anno a one-row data frame containing Annotation Track's information: NAME in the first column, URL in the second. Note: if you set refmake as TRUE, you don't need to provide annotation information.
+#' @param align a multi-row data frame containing Alignment Tracks' information: NAME in the first column, URL in the second, indexURL in the third. Note: set stringsAsFactors = FALSE in creating data frames is preferred.
+#' @param var a multi-row data frame containing Variant Tracks' information: NAME in the first column, URL in the second, indexURL in the third
+#' @param wig a multi-row data frame containing WIG Tracks' information: NAME in the first column, URL in the second
+#' @param seg a multi-row data frame containing Segmented Copy Number Tracks' information: NAME in the first column, URL in the second
+#' @param gwas a multi-row data frame containing GWAS Tracks' information: NAME in the first column, URL in the second
 #' @param out output file name, without suffix
 #'
 #' @importFrom utils write.table
@@ -88,7 +88,7 @@ igviewer <-
         '<head>',
         '<meta charset="UTF-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-        '<title>IGViewer</title>',
+        paste0('<title>', out, '</title>'),
         '<script src="https://cdn.jsdelivr.net/npm/igv@2.7.2/dist/igv.js"></script>',  # OR:https://igv.org/web/release/2.7.1/dist/igv.min.js
         '</head>',
         '<body>',

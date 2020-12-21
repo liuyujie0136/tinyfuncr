@@ -17,6 +17,9 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `sam2bed`: Convert SAM/BAM file to BED
 * `toUTF8`: Convert file(s) with different encoding(s) to UTF-8
 * `LeapCal`: Leap-year calendar
+* `fastIO`: Read/Write fasta/fastq files
+  * `fastIN`: Read fasta/fastq files
+  * `fastOUT`: Write fasta/fastq files
 
 ## Bugs
 
