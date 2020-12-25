@@ -283,12 +283,12 @@ fastQCer <- function(file, start = 1L, end = 1000L) {
 
   ## output
   pdf("fastQCer-Report.pdf", width = 8, height = 6)
-  pbs # basic statistics
-  pbsq # per base sequence quality
-  psqs # per sequence quality score
-  pbsc # per base sequence content
-  psgc # per sequence GC content
-  pbnc # per base N content
+  print(pbs) # basic statistics
+  print(pbsq) # per base sequence quality
+  print(psqs) # per sequence quality score
+  print(pbsc) # per base sequence content
+  print(psgc) # per sequence GC content
+  print(pbnc) # per base N content
   dev.off()
 
 }
