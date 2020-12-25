@@ -21,7 +21,7 @@ fastIO <- function(file, x = NULL) {
 
   if (file.exists(file) & is.null(x)) {
 
-    content <- read_lines(file)
+    content <- read_lines(file, n_max = 10L)
 
     fa <- str_detect(content, "^>") %>% any()
     fq <- str_detect(content, "^@") %>% any()

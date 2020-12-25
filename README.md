@@ -20,6 +20,11 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `fastIO`: Read/Write fasta/fastq files
   * `fastIN`: Read fasta/fastq files
   * `fastOUT`: Write fasta/fastq files
+* `fastQCer`: Quality Check for fastq files
+  * `fastQual`: Visualize quality information in fastq files
+  * `fastGC`: Compute GC content across all reads in fastq files
+  * `fastSC`: Compute sequence content across all bases in fastq files
+  * `fastSQ`: Mean sequence quality scores across all reads in fastq files
 
 ## Bugs
 
