@@ -289,6 +289,6 @@ fastQCer <- function(file, start = 1L, end = 1000L) {
   print(pbsc) # per base sequence content
   print(psgc) # per sequence GC content
   print(pbnc) # per base N content
-  if (!is.null(dev.list())) dev.off()
+  dev.off()
 
 }
