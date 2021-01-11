@@ -12,7 +12,6 @@
 #'
 #' @import export
 #' @import eoffice
-#' @importFrom rvcheck o
 #'
 #' @author Yujie Liu
 #' @export
@@ -58,7 +57,7 @@ plotsave <- function(plot = NULL, type = "pdf", filename = NULL,
       tohtml(figure = plot, filename = fname)
     }
     if (open){
-      o(fname)
+      fopen(fname)
     }
     return("File saved!")
   } else {
@@ -69,7 +68,7 @@ plotsave <- function(plot = NULL, type = "pdf", filename = NULL,
             height = height, width = width, ...)
 
   if (open){
-    o(dir(pattern = fname))
+    fopen(dir(pattern = fname))
   }
 
   return("File saved!")

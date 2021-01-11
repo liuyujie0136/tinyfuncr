@@ -14,7 +14,7 @@
 #' @param out output file name, without suffix
 #'
 #' @importFrom utils write.table
-#' @importFrom rvcheck o
+#'
 #' @author Yujie Liu
 #' @export
 #'
@@ -247,6 +247,6 @@ igviewer <-
       fileEncoding = "UTF-8"
     )
 
-    o(outfilename)
+    fopen(outfilename)
 
   }

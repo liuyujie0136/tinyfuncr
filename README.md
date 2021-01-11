@@ -25,6 +25,8 @@ devtools::install_github("liuyujie0136/tinyfuncr")
   * `fastGC`: Compute GC content across all reads in fastq files
   * `fastSC`: Compute sequence content across all bases in fastq files
   * `fastSQ`: Mean sequence quality scores across all reads in fastq files
+* `mergeDups`: Merge duplicated lines into one entry
+* `fopen`: Open file with system default application
 
 ## Bugs
 

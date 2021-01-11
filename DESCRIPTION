@@ -4,11 +4,10 @@ Title: tiny R functions
 Description: tiny R functions for self-practice and handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
-Version: 0.1.0
+Version: 0.1.1
 Imports: 
   export,
   eoffice,
-  rvcheck,
   readr,
   stringr,
   magrittr,
