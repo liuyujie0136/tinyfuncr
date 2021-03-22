@@ -26,6 +26,7 @@ devtools::install_github("liuyujie0136/tinyfuncr")
   * `fastSC`: Compute sequence content across all bases in fastq files
   * `fastSQ`: Mean sequence quality scores across all reads in fastq files
 * `mergeDups`: Merge duplicated lines into one entry
+* `expandDups`: Expand one entry into multiple lines
 * `fopen`: Open file with system default application
 
 ## Bugs

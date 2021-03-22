@@ -2,6 +2,7 @@
 
 export(LeapCal)
 export(bm2md)
+export(expandDups)
 export(fastGC)
 export(fastIN)
 export(fastIO)
