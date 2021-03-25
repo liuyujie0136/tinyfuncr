@@ -7,11 +7,11 @@
 fastOUT(x, file, format)
 }
 \arguments{
-\item{x}{file content in data frame format. For FASTA files, it should contain sequence names (without ">") in the first column, and sequence content in the second. For FASTQ files, it should contain sequence information (without "@") in the first column, sequence content in the second, additional information (without "+") in the third, and quality information in the fourth.}
+\item{x}{file content in data frame format. For FASTA files, it should contain sequence names (without \code{>}) in the first column, and sequence content in the second. For FASTQ files, it should contain sequence information (without \code{@}) in the first column, sequence content in the second, additional information (without \code{+}) in the third, and quality information in the fourth.}
 
 \item{file}{output file name (path)}
 
-\item{format}{output file format, must be one of "fasta" or "fastq".}
+\item{format}{output file format, must be one of \code{fasta} or \code{fastq}.}
 }
 \description{
 Write fasta or fastq files.

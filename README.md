@@ -28,6 +28,7 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `mergeDups`: Merge duplicated lines into one entry
 * `expandDups`: Expand one entry into multiple lines
 * `fopen`: Open file with system default application
+* `geom_signif_wrapper`: Wrapper for significance layer in `ggsignif`
 
 ## Bugs
 

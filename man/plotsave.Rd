@@ -25,7 +25,7 @@ plotsave(
 
 \item{width}{graph width, default 6}
 
-\item{open}{whether to open graph file after saving, default FALSE}
+\item{open}{whether to open graph file after saving, default \code{FALSE}}
 
 \item{...}{other arguments used in package "export"}
 }

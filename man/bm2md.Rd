@@ -18,7 +18,7 @@ bm2md(
 
 \item{safari}{whether this file is exported from MacOS Safari, default FALSE}
 
-\item{add.rules}{additional rules for some strange items. It should be a tibble or data frame, with first column being "pattern", second being "replacement" (used in function stringr::str_replace_all()). All items should be written in string form of regular expression.}
+\item{add.rules}{additional rules for some strange items. It should be a tibble or data frame, with first column being \code{pattern}, second being \code{replacement} (used in function \code{stringr::str_replace_all()}). All items should be written in string form of regular expression.}
 }
 \description{
 Convert html format bookmarks to markdown. Useful especially in publishing it on GitHub. Only bookmarks files exported from Microsoft Edge, Google Chrome and Safari are supported now.

@@ -1,12 +1,12 @@
 #' Read/Write fasta/fastq files
 #'
 #' @description Read or write fasta or fastq files.
-#' @details This function can automatically detect whether to read from or write to a file for provided parameters. To READ, you should provide path to an EXISTING fasta/fastq file, x should be kept NULL, and this function will return a data frame containing the content. To WRITE, you should provide path to a NEW fasta/fastq file, x should be a data frame object. Also, file format will be inferred from the content.
+#' @details This function can automatically detect whether to read from or write to a file for provided parameters. To READ, you should provide path to an EXISTING fasta/fastq file, x should be kept `NULL`, and this function will return a data frame containing the content. To WRITE, you should provide path to a NEW fasta/fastq file, x should be a data frame object. Also, file format will be inferred from the content.
 #'
-#' For FASTA files, the data frame should contain sequence names (without ">") in the first column, and sequence content in the second. For FASTQ files, the data frame should contain sequence information (without "@") in the first column, sequence content in the second, additional information (without "+") in the third, and quality information in the fourth.
+#' For FASTA files, the data frame should contain sequence names (without `>`) in the first column, and sequence content in the second. For FASTQ files, the data frame should contain sequence information (without `@`) in the first column, sequence content in the second, additional information (without `+`) in the third, and quality information in the fourth.
 #'
 #' @param file file name (path). If not exist, will create one for output.
-#' @param x a data frame object. Provide only if you want to write its content to file. If kept NULL, will create one to read content in and return it.
+#' @param x a data frame object. Provide only if you want to write its content to file. If kept `NULL`, will create one to read content in and return it.
 #'
 #' @import readr
 #' @import stringr

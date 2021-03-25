@@ -2,11 +2,11 @@
 #'
 #' @description Use igv.js to show tracks in a html file. For more information, please visit: https://github.com/igvteam/igv.js
 #'
-#' @param ref a one-row data frame containing Reference Genome's information: NAME in the first column, fastaURL in the second, indexURL in the third. Note: URL can be an address to local files, relative files location is acceptable, but absolute files address should add "file:///" before "C:/" etc in Windows system (See Example part for more information).
-#' @param refmake whether to make reference information from function makeigvref(), default FALSE
-#' @param refid if you set refmake as TRUE, provide reference genome id
-#' @param anno a one-row data frame containing Annotation Track's information: NAME in the first column, URL in the second. Note: if you set refmake as TRUE, you don't need to provide annotation information.
-#' @param align a multi-row data frame containing Alignment Tracks' information: NAME in the first column, URL in the second, indexURL in the third. Note: set stringsAsFactors = FALSE in creating data frames is preferred.
+#' @param ref a one-row data frame containing Reference Genome's information: NAME in the first column, fastaURL in the second, indexURL in the third. Note: URL can be an address to local files, relative files location is acceptable, but absolute files address should add `file:///` before `C:/` etc in Windows system (See Example part for more information).
+#' @param refmake whether to make reference information from function `makeigvref`, default `FALSE`
+#' @param refid if you set `refmake` as `TRUE`, provide reference genome id
+#' @param anno a one-row data frame containing Annotation Track's information: NAME in the first column, URL in the second. Note: if you set `refmake` as `TRUE`, you don't need to provide annotation information.
+#' @param align a multi-row data frame containing Alignment Tracks' information: NAME in the first column, URL in the second, indexURL in the third. Note: set `stringsAsFactors = FALSE` in creating data frames is preferred.
 #' @param var a multi-row data frame containing Variant Tracks' information: NAME in the first column, URL in the second, indexURL in the third
 #' @param wig a multi-row data frame containing WIG Tracks' information: NAME in the first column, URL in the second
 #' @param seg a multi-row data frame containing Segmented Copy Number Tracks' information: NAME in the first column, URL in the second

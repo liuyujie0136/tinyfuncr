@@ -7,7 +7,7 @@
 #' @param filename file name, without suffix. Default: combines "Rplot" and current time together
 #' @param height graph height, default 5 (especially for plots with legend on the side)
 #' @param width graph width, default 6
-#' @param open whether to open graph file after saving, default FALSE
+#' @param open whether to open graph file after saving, default `FALSE`
 #' @param ... other arguments used in package "export"
 #'
 #' @import export

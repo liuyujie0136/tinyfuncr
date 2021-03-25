@@ -2,9 +2,9 @@
 #'
 #' @description Write fasta or fastq files.
 #'
-#' @param x file content in data frame format. For FASTA files, it should contain sequence names (without ">") in the first column, and sequence content in the second. For FASTQ files, it should contain sequence information (without "@") in the first column, sequence content in the second, additional information (without "+") in the third, and quality information in the fourth.
+#' @param x file content in data frame format. For FASTA files, it should contain sequence names (without `>`) in the first column, and sequence content in the second. For FASTQ files, it should contain sequence information (without `@`) in the first column, sequence content in the second, additional information (without `+`) in the third, and quality information in the fourth.
 #' @param file output file name (path)
-#' @param format output file format, must be one of "fasta" or "fastq".
+#' @param format output file format, must be one of `fasta` or `fastq`.
 #'
 #' @import readr
 #' @import stringr

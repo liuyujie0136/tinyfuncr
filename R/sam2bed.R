@@ -4,7 +4,7 @@
 #'
 #' @param input input SAM/BAM file
 #' @param output output BED file's name, without suffix
-#' @param gr whether to generate a GRange object, default FALSE
+#' @param gr whether to generate a GRange object, default `FALSE`
 #'
 #' @import readr
 #' @import stringr

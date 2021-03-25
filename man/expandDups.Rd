@@ -9,7 +9,7 @@ expandDups(x, id = 1, sep = ",")
 \arguments{
 \item{x}{a data frame or tibble}
 
-\item{id}{column index of variable needs to expand, which has separators defined as `sep`. Default the first column.}
+\item{id}{column index of variable needs to expand, which has separators defined as \code{sep}. Default the first column.}
 
 \item{sep}{separator}
 }

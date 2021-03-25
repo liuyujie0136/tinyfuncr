@@ -14,7 +14,7 @@ fastQCer(file, start = 1L, end = 1000L)
 \item{end}{QC end location, default the 1000th read}
 }
 \description{
-Quality Check for fastq files, which mainly derived from high-throughput next-generation sequencing. It is not just a collection of fastQual, fastGC, fastSC, fastSQ, etc., some new features are also added.
+Quality Check for fastq files, which mainly derived from high-throughput next-generation sequencing. It is not just a collection of \code{fastQual}, \code{fastGC}, \code{fastSC}, \code{fastSQ}, etc., some new features are also added.
 }
 \author{
 Yujie Liu

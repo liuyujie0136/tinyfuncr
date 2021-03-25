@@ -1,9 +1,9 @@
 #' Read fasta/fastq files
 #'
-#' @description Read fasta or fastq file into a data frame. For FASTA files, it will contain sequence names (without ">") in the first column, and sequence content in the second. For FASTQ files, it will contain sequence information (without "@") in the first column, sequence content in the second, additional information (without "+") in the third, and quality information in the fourth.
+#' @description Read fasta or fastq file into a data frame. For FASTA files, it will contain sequence names (without `>`) in the first column, and sequence content in the second. For FASTQ files, it will contain sequence information (without `@`) in the first column, sequence content in the second, additional information (without `+`) in the third, and quality information in the fourth.
 #'
 #' @param file input file name (path)
-#' @param format input file format, must be one of "fasta" or "fastq".
+#' @param format input file format, must be one of `fasta` or `fastq`.
 #'
 #' @import readr
 #' @import stringr

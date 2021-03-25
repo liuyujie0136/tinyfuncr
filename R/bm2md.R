@@ -5,7 +5,7 @@
 #' @param file bookmarks file in html format. Default: first html file in the current directory
 #' @param out output markdown file's name, without suffix
 #' @param safari whether this file is exported from MacOS Safari, default FALSE
-#' @param add.rules additional rules for some strange items. It should be a tibble or data frame, with first column being "pattern", second being "replacement" (used in function stringr::str_replace_all()). All items should be written in string form of regular expression.
+#' @param add.rules additional rules for some strange items. It should be a tibble or data frame, with first column being `pattern`, second being `replacement` (used in function `stringr::str_replace_all()`). All items should be written in string form of regular expression.
 #'
 #' @import readr
 #' @import stringr

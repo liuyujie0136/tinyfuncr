@@ -1,6 +1,6 @@
 #' Quality Check for fastq files
 #'
-#' @description Quality Check for fastq files, which mainly derived from high-throughput next-generation sequencing. It is not just a collection of fastQual, fastGC, fastSC, fastSQ, etc., some new features are also added.
+#' @description Quality Check for fastq files, which mainly derived from high-throughput next-generation sequencing. It is not just a collection of `fastQual`, `fastGC`, `fastSC`, `fastSQ`, etc., some new features are also added.
 #'
 #' @param file fastq file, not in gzip
 #' @param start QC start location, default the first read

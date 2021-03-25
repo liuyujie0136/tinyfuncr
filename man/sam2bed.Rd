@@ -11,7 +11,7 @@ sam2bed(input, output, gr = FALSE)
 
 \item{output}{output BED file's name, without suffix}
 
-\item{gr}{whether to generate a GRange object, default FALSE}
+\item{gr}{whether to generate a GRange object, default \code{FALSE}}
 }
 \description{
 Convert SAM (Sequence Alignment/Mapping) or BAM (binary form of SAM) file to BED (Browser Extensible Data) file. SAM files can only contain single-end-reads now.

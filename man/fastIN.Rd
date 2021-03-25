@@ -9,10 +9,10 @@ fastIN(file, format)
 \arguments{
 \item{file}{input file name (path)}
 
-\item{format}{input file format, must be one of "fasta" or "fastq".}
+\item{format}{input file format, must be one of \code{fasta} or \code{fastq}.}
 }
 \description{
-Read fasta or fastq file into a data frame. For FASTA files, it will contain sequence names (without ">") in the first column, and sequence content in the second. For FASTQ files, it will contain sequence information (without "@") in the first column, sequence content in the second, additional information (without "+") in the third, and quality information in the fourth.
+Read fasta or fastq file into a data frame. For FASTA files, it will contain sequence names (without \code{>}) in the first column, and sequence content in the second. For FASTQ files, it will contain sequence information (without \code{@}) in the first column, sequence content in the second, additional information (without \code{+}) in the third, and quality information in the fourth.
 }
 \author{
 Yujie Liu

@@ -7,7 +7,7 @@
 getigvtable()
 }
 \description{
-Get IGV pre-defined reference genomes and annotation. It will return a table containing current list of pre-defined reference genomes' names and IDs. Note: You should only use IDs available in this table in the function makeigvref().
+Get IGV pre-defined reference genomes and annotation. It will return a table containing current list of pre-defined reference genomes' names and IDs. Note: You should only use IDs available in this table in the function \code{makeigvref}.
 }
 \examples{
 getigvtable()

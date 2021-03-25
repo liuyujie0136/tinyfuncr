@@ -11,7 +11,7 @@ mergeDups(x, id = 1, sep = NULL)
 
 \item{id}{column index of identical variable, which is used to detect duplication, default the first column.}
 
-\item{sep}{separator. If column(s) to merge only contain(s) numeric values, they can be merged with the default `sep = NULL` simply by adding them together. If character or string occurred, `sep` should be set to a string.}
+\item{sep}{separator. If column(s) to merge only contain(s) numeric values, they can be merged with the default \code{sep = NULL} simply by adding them together. If character or string occurred, \code{sep} should be set to a string.}
 }
 \description{
 Merge duplicated lines into one entry according to one or some identifier(s). Note: this function may be quite slow when input data is large.
