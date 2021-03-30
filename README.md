@@ -7,6 +7,7 @@ An R package containing some tiny functions for self-practice and handy use.
 ```r
 devtools::install_github("liuyujie0136/tinyfuncr")
 ```
+
 ## Functions
 
 * `plotsave`: Save plot to device with various formats
@@ -29,6 +30,14 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `expandDups`: Expand one entry into multiple lines
 * `fopen`: Open file with system default application
 * `geom_signif_wrapper`: Wrapper for significance layer in `ggsignif`
+
+## Dependencies
+
+* In `tidyverse`: `readr`, `stringr`, `magrittr`, `purrr`, `ggplot2`
+* Data: `reshape2`
+* Plot: `export`, `eoffice`
+* Bio: `Rsamtools`, `IRanges`, `GenomicRanges`
+* Others: `Rcpp`
 
 ## Bugs
 
