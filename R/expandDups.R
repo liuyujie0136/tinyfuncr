@@ -46,7 +46,14 @@ expandDups <- function(x, id = 1, sep = ",") {
   for (j in 1:nrow(x_dup)) {
     keys <- strsplit(x_dup[j, id], sep)[[1]]
     for (key in keys) {
-      expand_data <- data.frame(key, x_dup[j,-id])
+      if (id == 1) {
+        expand_data <- data.frame(key, x_dup[j, -id])
+      } else if (id == ncol(x_dup)) {
+        expand_data <- data.frame(x_dup[j, -id], key)
+      } else {
+        expand_data <-
+          data.frame(x_dup[j, 1:(id - 1)], key, x_dup[j, (id + 1):ncol(x_dup)])
+      }
       colnames(expand_data) <- colnames(x_dup)
       x_dup_expand <- rbind(x_dup_expand, expand_data)
     }

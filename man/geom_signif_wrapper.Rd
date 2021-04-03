@@ -114,7 +114,7 @@ displayed as described in \code{?plotmath}.}
 }
 \description{
 \itemize{
-\item Mod \code{y_position}, \code{margin_top}, \code{step_increase}, \code{tip_length} to absolute position on y-axis.
+\item Modify \code{y_position}, \code{margin_top}, \code{step_increase}, \code{tip_length} to absolute position on y-axis.
 \item Set \code{map_signif_level}, \code{na.rm} default \code{TRUE}.
 }
 }

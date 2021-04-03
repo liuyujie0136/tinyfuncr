@@ -30,6 +30,9 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `expandDups`: Expand one entry into multiple lines
 * `fopen`: Open file with system default application
 * `geom_signif_wrapper`: Wrapper for significance layer in `ggsignif`
+* `RWrapper`: Wrapper for reading and writing files
+  * `read_tcsv`: Read table/csv files
+  * `write_tcsv`: Write table/csv files
 
 ## Dependencies
 
