@@ -33,14 +33,16 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `RWrapper`: Wrapper for reading and writing files
   * `read_tcsv`: Read table/csv files
   * `write_tcsv`: Write table/csv files
+* `spirograph`: Draw Spirograph
 
 ## Dependencies
 
 * In `tidyverse`: `readr`, `stringr`, `magrittr`, `purrr`, `ggplot2`
 * Data: `reshape2`
 * Plot: `export`, `eoffice`
+* Color: `RColorBrewer`
 * Bio: `Rsamtools`, `IRanges`, `GenomicRanges`
-* Others: `Rcpp`
+* Others: `Rcpp`, `gmp`
 
 ## Bugs
 

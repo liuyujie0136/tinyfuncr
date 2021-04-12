@@ -12,8 +12,8 @@ read_tcsv(
   header = TRUE,
   quote = "",
   sep = NULL,
-  row.names = NULL,
-  col.names = NULL,
+  row.names,
+  col.names,
   comment.char = "",
   stringsAsFactors = FALSE,
   fileEncoding = "UTF-8"
