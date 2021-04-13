@@ -1,16 +1,19 @@
 #' Draw Spirograph
 #'
+#' @description Draw Spirograph using ggplot2. See reference at https://blog.csdn.net/w573719227/article/details/104584879
+#'
 #' @param R outer circle radius, should only contain one value
 #' @param r numeric vector of inner circle radius
 #' @param p numeric vector of distance between pen-point and center of inner circle
-#' @param col character vector of color of each line
-#' @param width numeric vector of width of each line. Typically, `r`, `p`, `col`, and `width` should be the same length
+#' @param col character vector of line color
+#' @param width numeric vector of line width. Typically, `r`, `p`, `col` and `width` should be the same length, but you can only provide `r` and `p` to use default color and line width.
 #'
 #' @import ggplot2
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom gmp gcd
 #'
 #' @examples
+#' spirograph()
 #' spirograph(31, seq(11, 20, 2), seq(6, 15, 2))
 #'
 #' @author Yujie Liu
@@ -48,8 +51,7 @@ spirograph <- function(R = 25,
     pos <- data.frame()
     for (theta in ((1:(360 * n)) * pi / 180)) {
       x <- R * ((1 - k) * cos(theta) + l * k * cos((1 - k) / k * theta))
-      y <-
-        R * ((1 - k) * sin(theta) - l * k * sin((1 - k) / k * theta))
+      y <- R * ((1 - k) * sin(theta) - l * k * sin((1 - k) / k * theta))
       pos <- rbind(pos, data.frame(x = x, y = y))
     }
 

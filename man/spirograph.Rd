@@ -13,14 +13,15 @@ spirograph(R = 25, r = 12, p = 5, col = "skyblue", width = 0.2)
 
 \item{p}{numeric vector of distance between pen-point and center of inner circle}
 
-\item{col}{character vector of color of each line}
+\item{col}{character vector of line color}
 
-\item{width}{numeric vector of width of each line. Typically, \code{r}, \code{p}, \code{col}, and \code{width} should be the same length}
+\item{width}{numeric vector of line width. Typically, \code{r}, \code{p}, \code{col} and \code{width} should be the same length, but you can only provide \code{r} and \code{p} to use default color and line width.}
 }
 \description{
-Draw Spirograph
+Draw Spirograph using ggplot2. See reference at https://blog.csdn.net/w573719227/article/details/104584879
 }
 \examples{
+spirograph()
 spirograph(31, seq(11, 20, 2), seq(6, 15, 2))
 
 }
