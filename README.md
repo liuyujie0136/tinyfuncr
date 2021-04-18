@@ -34,15 +34,16 @@ devtools::install_github("liuyujie0136/tinyfuncr")
   * `read_tcsv`: Read table/csv files
   * `write_tcsv`: Write table/csv files
 * `spirograph`: Draw Spirograph
+* `ggbetweenstats_wrapper`: Wrapper for `(grouped_)ggbetweenstats` in `ggstatsplot`
 
 ## Dependencies
 
-* In `tidyverse`: `readr`, `stringr`, `magrittr`, `purrr`, `ggplot2`
-* Data: `reshape2`
-* Plot: `export`, `eoffice`
-* Color: `RColorBrewer`
+* In `tidyverse`: `ggplot2`, `tibble`, `tidyr`, `readr`, `purrr`, `dplyr`, `stringr`
+* Data: `magrittr`, `reshape2`, `pairwiseComparisons`
+* `ggplot2` extensions: `ggstatsplot`, `ggrepel`, `ggsignif`, `ggtree`
+* Color: `RColorBrewer`, `paletteer`
 * Bio: `Rsamtools`, `IRanges`, `GenomicRanges`
-* Others: `Rcpp`, `gmp`
+* Others:`export`, `eoffice`, `Rcpp`, `gmp`, `rlang`, `ipmisc`
 
 ## Bugs
 

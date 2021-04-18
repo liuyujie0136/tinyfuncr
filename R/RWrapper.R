@@ -21,7 +21,8 @@ read_tcsv <- function(file,
                       col.names,
                       comment.char = "",
                       stringsAsFactors = FALSE,
-                      fileEncoding = "UTF-8"
+                      fileEncoding = "UTF-8",
+                      ...
                       ){
 
   if (type == "tsv"){
@@ -42,7 +43,8 @@ read_tcsv <- function(file,
     col.names = col.names,
     comment.char = comment.char,
     stringsAsFactors = stringsAsFactors,
-    fileEncoding = fileEncoding
+    fileEncoding = fileEncoding,
+    ...
   )
   return(x)
 }
@@ -58,7 +60,8 @@ write_tcsv <- function(x,
                        sep = NULL,
                        col.names = TRUE,
                        row.names = FALSE,
-                       fileEncoding = "UTF-8"){
+                       fileEncoding = "UTF-8",
+                       ...){
 
   if (type == "tsv"){
     if (is.null(sep)){
@@ -84,7 +87,8 @@ write_tcsv <- function(x,
     sep = sep,
     row.names = row.names,
     col.names = col.names,
-    fileEncoding = "UTF-8"
+    fileEncoding = "UTF-8",
+    ...
   )
 }
 

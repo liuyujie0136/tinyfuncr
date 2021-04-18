@@ -16,7 +16,8 @@ read_tcsv(
   col.names,
   comment.char = "",
   stringsAsFactors = FALSE,
-  fileEncoding = "UTF-8"
+  fileEncoding = "UTF-8",
+  ...
 )
 
 write_tcsv(
@@ -28,7 +29,8 @@ write_tcsv(
   sep = NULL,
   col.names = TRUE,
   row.names = FALSE,
-  fileEncoding = "UTF-8"
+  fileEncoding = "UTF-8",
+  ...
 )
 }
 \arguments{
@@ -36,9 +38,9 @@ write_tcsv(
 
 \item{type}{file type, either "tsv" or "csv"}
 
-\item{x}{typically a data frame or tibble}
-
 \item{...}{see more at \code{\link[utils:read.table]{utils::read.table()}} and \code{\link[utils:write.table]{utils::write.table()}}}
+
+\item{x}{typically a data frame or tibble}
 }
 \description{
 Wrapper for reading/writing table/csv files with sensible defaults.

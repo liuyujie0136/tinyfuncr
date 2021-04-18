@@ -4,7 +4,7 @@ Title: tiny R functions
 Description: tiny R functions for self-practice and handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
-Version: 0.1.5
+Version: 0.1.7
 Imports: 
   export,
   eoffice,
@@ -19,7 +19,16 @@ Imports:
   reshape2,
   ggplot2,
   RColorBrewer,
-  gmp
+  gmp,
+  dplyr,
+  ggstatsplot,
+  ggrepel,
+  ggsignif,
+  paletteer,
+  rlang,
+  pairwiseComparisons,
+  tidyr,
+  ipmisc
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

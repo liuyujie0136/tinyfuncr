@@ -265,7 +265,7 @@ GeomSignifWrapper <- ggplot2::ggproto(
                         extend_line = 0) {
     lab <- as.character(data$annotation)
     if (parse) {
-      lab <- parse_safe(as.character(lab))
+      lab <- ggsignif:::parse_safe(as.character(lab))
     }
     coords <- coord$transform(data, panel_params)
     if (extend_line != 0 && nrow(coords) == 3) {
