@@ -1,7 +1,7 @@
 Package: tinyfuncr
 Type: Package
 Title: tiny R functions
-Description: tiny R functions for self-practice and handy use
+Description: A collection of tiny R functions for handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
 Version: 0.1.7
