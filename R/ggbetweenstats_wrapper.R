@@ -144,7 +144,7 @@ ggbetweenstats_wrapper <- function(data,
   plotlist <-
     purrr::pmap(
       .l = list(data = df, title = names(df)),
-      .f = ggbetweenstats_wrapper_main,
+      .f = tinyfuncr:::ggbetweenstats_wrapper_main,
       # put common parameters here
       x = {{ x }},
       y = {{ y }},
@@ -213,7 +213,8 @@ ggbetweenstats_wrapper_main <-
   type <- ipmisc::stats_type_switch(type)
 
   # make sure both quoted and unquoted arguments are allowed
-  c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
+  x <- rlang::ensym(x)
+  y <- rlang::ensym(y)
 
   # --------------------------------- data -----------------------------------
 
@@ -223,17 +224,16 @@ ggbetweenstats_wrapper_main <-
     tidyr::drop_na(.) %>%
     dplyr::mutate({{ x }} := droplevels(as.factor({{ x }})))
 
-  # no outliers data
-  no_outliers <- data
-  tmp <- dplyr::select(no_outliers, {{ y }})
-  qt <- quantile(tmp, c(0.25, 0.75), na.rm = TRUE)
-  min <- max(min(tmp, na.rm = TRUE),
-             qt[1] - outlier.coef * (qt[2] - qt[1]))
-  max <- min(max(tmp, na.rm = TRUE),
-             qt[2] + outlier.coef * (qt[2] - qt[1]))
-  no_outliers %<>%
-    dplyr::filter({{ y }} >= min & {{ y }} <= max)
-
+  # no outliers data for each group defined by `x`
+  no_outliers <- data.frame()
+  for (g in levels(data %>% dplyr::select({{ x }}) %>% .[[1]])) {
+    tmp <- data %>% dplyr::filter({{ x }} == g)
+    qt <- quantile(tmp[[2]], probs = c(0.25, 0.75))
+    min <- max(min(tmp[[2]]), qt[1] - outlier.coef * (qt[2] - qt[1]))
+    max <- min(max(tmp[[2]]), qt[2] + outlier.coef * (qt[2] - qt[1]))
+    no_outliers <- rbind(no_outliers,
+                         dplyr::filter(tmp, {{ y }} >= min & {{ y }} <= max))
+  }
 
   # --------------------- subtitle/caption preparation ------------------------
 
@@ -295,7 +295,6 @@ ggbetweenstats_wrapper_main <-
       .fn = ggplot2::geom_point,
       data = no_outliers,
       mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, color = {{ x }}),
-      na.rm = TRUE,
       !!!point.args
     )
 
@@ -303,7 +302,7 @@ ggbetweenstats_wrapper_main <-
   if (plot.type %in% c("box", "boxviolin")) {
     plot <- plot +
       rlang::exec(
-        .fn = ggplot2::geom_boxplot,
+        .fn = ggplot2::stat_boxplot,
         data = data,
         mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}),
         width = 0.3,
@@ -311,7 +310,7 @@ ggbetweenstats_wrapper_main <-
         fill = "white",
         coef = outlier.coef,
         outlier.shape = NA,
-        na.rm = TRUE,
+        geom = "boxplot",
         position = ggplot2::position_dodge(width = NULL)
       )
   }
@@ -324,7 +323,6 @@ ggbetweenstats_wrapper_main <-
         data = no_outliers,
         mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}),
         fill = "white",
-        na.rm = TRUE,
         !!!violin.args
       )
   }
@@ -392,8 +390,8 @@ ggbetweenstats_wrapper_main <-
     }
 
     # calc scale values
-    min_y_data <- min(no_outliers[[{{ y }}]], na.rm = T)
-    max_y_data <- max(no_outliers[[{{ y }}]], na.rm = T)
+    min_y_data <- min(no_outliers[[{{ y }}]])
+    max_y_data <- max(no_outliers[[{{ y }}]])
     range_y_data <- max_y_data - min_y_data
 
     # calc init plot scale
@@ -427,7 +425,8 @@ ggbetweenstats_wrapper_main <-
   # # ------------------------ annotations and themes -------------------------
 
   # add y lim
-  plot <- plot + scale_y_continuous(limits = c(min_y_plot, max_y_plot))
+  plot <- plot + coord_cartesian(ylim = c(min_y_plot, max_y_plot))
+  # using `coord_cartesian` instead of `scale_y_continuous(limits = c(0,100))` will only zoom the plot, without changing boxplot's shape!
 
   # specifying annotations and other aesthetic aspects for the plot
   ggstatsplot:::aesthetic_addon(

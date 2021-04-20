@@ -4,7 +4,7 @@ Title: tiny R functions
 Description: A collection of tiny R functions for handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
-Version: 0.1.7
+Version: 0.1.9
 Imports: 
   export,
   eoffice,
