@@ -10,7 +10,6 @@
 #' @importFrom stats na.omit
 #'
 #' @author Yujie Liu
-#' @export
 #'
 #' @examples
 #' makeigvref("hg38")

@@ -14,7 +14,6 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `bm2md`: Convert html format bookmarks to markdown
 * `igviewer`: Web-based IGViewer
   * `getigvtable`: Get IGV online reference genomes table
-  * `makeigvref`: Make IGV reference genome information
 * `sam2bed`: Convert SAM/BAM file to BED
 * `toUTF8`: Convert file(s) with different encoding(s) to UTF-8
 * `LeapCal`: Leap-year calendar
@@ -31,10 +30,15 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `fopen`: Open file with system default application
 * `geom_signif_wrapper`: Wrapper for significance layer in `ggsignif`
 * `RWrapper`: Wrapper for reading and writing files
-  * `read_tcsv`: Read table/csv files
-  * `write_tcsv`: Write table/csv files
+  * `read_tcsv`: Read table/csv files into a data frame
+  * `write_tcsv`: Write table/csv files from a data frame
 * `spirograph`: Draw Spirograph
 * `ggbetweenstats_wrapper`: Wrapper for `(grouped_)ggbetweenstats` in `ggstatsplot`
+* `ggchrom`: Annotate chromosome using `ggplot2`
+  * `calcDensity`
+    * `calcDensityGFF`
+  * `ggfanplot`
+  * `ggideogram`
 
 ## Dependencies
 

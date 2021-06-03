@@ -1,6 +1,6 @@
 #' @name RWrapper
 #' @title Wrapper for reading/writing table/csv files
-#' @description Wrapper for reading/writing table/csv files with sensible defaults.
+#' @description Wrapper for reading/writing table/csv files into/from a data frame with sensible defaults.
 #'
 #' @param file file's full name to read in or write to
 #' @param type file type, either "tsv" or "csv"
