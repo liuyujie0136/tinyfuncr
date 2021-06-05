@@ -1,6 +1,6 @@
-#' Plot interested genes on chromosome
+#' Plot ideogram and annotations on chromosome
 #'
-#' @description Plot interested genes on chromosome.
+#' @description Plot ideogram and annotations on chromosome. Annotations can be text (with different color/size), point (with different shape/size), or lines (i.e. values for each position).
 #'
 #' @param karyotype_info tab-separated file (or a data frame) containing karyotype information, with first column being "Chr", second being "Start", third being "End". File should NOT have header.
 #' @param gff_file GFF file, used only when `chrom_display = "gene_density"`
@@ -20,27 +20,23 @@
 #' - For **shapeline** type, first column is "Chr", second is "Pos", third is "Value", fouth is "Shape", fifth is "ShapeSize", sixth is "ShapeColor", where 5-6 columns are optional.
 #' - For **textshapeline** type, first column is "Chr", second is "Pos", third is "Value", fouth is "Text", fifth is "Shape", sixth is "TextSize", seventh is "TextColor", eighth is "ShapeSize", nineth is "ShapeColor", where 6-9 columns are optional.
 #' @param ggfanplot_args args used in `ggfanplot`, see [tinyfuncr::ggfanplot()]
-#' @param ann_line_args args used in `geom_path`, see [ggplot2::geom_path())]
-#'
+#' @param ann_line_args args used in `geom_path`, see [ggplot2::geom_path()]
 #'
 #' @import ggplot2
-#' @import dplyr
-#' @importFrom magrittr %>%
-#' @import ggsci
 #'
 #' @author Yujie Liu
 #' @export
 #'
 
 
-ggideogram <- fucntion(
+ggideogram <- function(
   karyotype_info,
   gff_file = NULL,
   slide_window = 1e5,
   plot_direction = c("vertical", "horizontal"),
   chrom_display = c("gene_density", "border_only"),
-  density_color = c("skyblue", "red"), #low,high
-  circ_ratio = NULL, # change according to plot size
+  density_color = c("skyblue", "red"),
+  circ_ratio = NULL,
   ann_type = c(
     "none",
     "text",
@@ -54,9 +50,13 @@ ggideogram <- fucntion(
   ),
   ann_data = NULL,
   ggfanplot_args = list(
-    htext_direction = c("right", "left"), #only in horizontal
-    text_color = NULL,
-    replusive = 1e6
+    htext_direction = c("right", "left"),
+    replusive = 1e6,
+    text_size = 1,
+    text_color = "black",
+    shape_size = 1,
+    shape_color = "skyblue",
+    shape_repel = 0.25
   ),
   ann_line_args = list(
     size = 0.4,
@@ -66,7 +66,7 @@ ggideogram <- fucntion(
 ) {
 
   ##############################################################
-  ## make chromsome end info (circle end), vertical mod
+  ## make chromosome end info (circle end), vertical mod
   if (is.character(karyotype_info)) {
     karyotype <- read_tcsv(karyotype_info, header = FALSE)
   } else {
@@ -95,7 +95,7 @@ ggideogram <- fucntion(
         chr_endtip_info,
         data.frame(
           Chr = chr,
-          x1 = c(0,-0.1,-0.1, 0.5, 0.5),
+          x1 = c(0, -0.1, -0.1, 0.5, 0.5),
           y1 = c(
             start + circ_ratio * 0.5,
             start + circ_ratio * 0.5,
@@ -111,7 +111,7 @@ ggideogram <- fucntion(
             start + circ_ratio * 0.5,
             start + circ_ratio * 0.5
           ),
-          x3 = c(0,-0.1,-0.1, 0.5, 0.5),
+          x3 = c(0, -0.1, -0.1, 0.5, 0.5),
           y3 = c(
             end - circ_ratio * 0.5,
             end - circ_ratio * 0.5,
@@ -302,53 +302,31 @@ ggideogram <- fucntion(
 
 
   ##############################################################
-  ## parse and make annotation info
+  ## plot annotation
 
   ##############################
   # using ggfanplot
-  if (ann_type[1] == "text") {
+  if (ann_type[1] %in% c("text", "shape", "textshape")) {
     p <- ggfanplot(
       p,
       plot_type = ann_type[1],
       plot_direction = plot_direction[1],
       fan_start = 0.8,
-      fan_end = 3,
+      fan_end = switch (
+        ann_type[1],
+        "text" = 3,
+        "shape" = 3.6,
+        "textshape" = 2.6
+      ),
       tip_length = 0.2,
       ann_data = ann_data,
-      text_size = 0.4,
-      text_color = ggfanplot_args$textshape_color,
       htext_direction = ggfanplot_args$htext_direction[1],
-      replusive = ggfanplot_args$replusive
-    )
-  }
-  if (ann_type[1] == "shape") {
-    p <- ggfanplot(
-      p,
-      plot_type = ann_type[1],
-      plot_direction = plot_direction[1],
-      fan_start = 0.8,
-      fan_end = 3.6,
-      tip_length = 0.2,
-      ann_data = ann_data,
-      text_size = 0.4,
-      text_color = ggfanplot_args$textshape_color,
-      htext_direction = ggfanplot_args$htext_direction[1],
-      replusive = ggfanplot_args$replusive
-    )
-  }
-  if (ann_type[1] == "textshape") {
-    p <- ggfanplot(
-      p,
-      plot_type = ann_type[1],
-      plot_direction = plot_direction[1],
-      fan_start = 0.8,
-      fan_end = 2.6,
-      tip_length = 0.2,
-      ann_data = ann_data,
-      text_size = 0.4,
-      text_color = ggfanplot_args$textshape_color,
-      htext_direction = ggfanplot_args$htext_direction[1],
-      replusive = ggfanplot_args$replusive
+      replusive = ggfanplot_args$replusive,
+      text_size = ggfanplot_args$text_size,
+      text_color = ggfanplot_args$text_color,
+      shape_size = ggfanplot_args$shape_size,
+      shape_color = ggfanplot_args$shape_color,
+      shape_repel = ggfanplot_args$shape_repel
     )
   }
 
@@ -361,20 +339,24 @@ ggideogram <- fucntion(
 
     if (plot_direction[1] == "vertical") {
       p <- p +
-        geom_path(data = ann_data,
-                  mapping = aes(x = Value,
-                                y = Pos),
-                  size = ann_line_args$size,
-                  color = ann_line_args$color,
-                  linetype = ann_line_args$linetype)
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Value,
+                        y = Pos),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
     } else if (plot_direction[1] == "horizontal") {
       p <- p +
-        geom_path(data = ann_data,
-                  mapping = aes(x = Pos,
-                                y = Value),
-                  size = ann_line_args$size,
-                  color = ann_line_args$color,
-                  linetype = ann_line_args$linetype)
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Pos,
+                        y = Value),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
     }
   }
 
@@ -397,29 +379,180 @@ ggideogram <- fucntion(
 
     if (plot_direction[1] == "vertical") {
       p <- p +
-        geom_path(data = ann_data_long,
-                  mapping = aes(x = Value,
-                                y = Pos,
-                                group = Var,
-                                color = Var),
-                  size = ann_line_args$size,
-                  linetype = ann_line_args$linetype)
+        geom_path(
+          data = ann_data_long,
+          mapping = aes(
+            x = Value,
+            y = Pos,
+            group = Var,
+            color = Var
+          ),
+          size = ann_line_args$size,
+          linetype = ann_line_args$linetype
+        )
     } else if (plot_direction[1] == "horizontal") {
       p <- p +
-        geom_path(data = ann_data_long,
-                  mapping = aes(x = Pos,
-                                y = Value,
-                                group = Var,
-                                color = Var),
-                  size = ann_line_args$size,
-                  linetype = ann_line_args$linetype)
+        geom_path(
+          data = ann_data_long,
+          mapping = aes(
+            x = Pos,
+            y = Value,
+            group = Var,
+            color = Var
+          ),
+          size = ann_line_args$size,
+          linetype = ann_line_args$linetype
+        )
     }
   }
 
+  ##############################
+  # textline
+  if (ann_type[1] == "textline") {
+    # plot line first
+    ann_data$Value <-
+      ann_data$Value / ((max(ann_data$Value) - min(ann_data$Value)) / (2.7 - 1.2)) + (1.2 - min(ann_data$Value) / (2.7 - 1.2))
+
+    if (plot_direction[1] == "vertical") {
+      p <- p +
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Value,
+                        y = Pos),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
+    } else if (plot_direction[1] == "horizontal") {
+      p <- p +
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Pos,
+                        y = Value),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
+    }
+
+    # plot fan text
+    p <- ggfanplot(
+      p,
+      plot_type = ann_type[1],
+      plot_direction = plot_direction[1],
+      fan_start = 2.5,
+      fan_end = 3.5,
+      tip_length = 0.1,
+      ann_data = ann_data,
+      htext_direction = ggfanplot_args$htext_direction[1],
+      replusive = ggfanplot_args$replusive,
+      text_size = ggfanplot_args$text_size,
+      text_color = ggfanplot_args$text_color,
+      shape_size = ggfanplot_args$shape_size,
+      shape_color = ggfanplot_args$shape_color,
+      shape_repel = ggfanplot_args$shape_repel
+    )
+  }
+
+  ##############################
+  # shapeline
+  if (ann_type[1] == "shapeline") {
+    # plot line first
+    ann_data$Value <-
+      ann_data$Value / ((max(ann_data$Value) - min(ann_data$Value)) / (3.2 - 1.2)) + (1.2 - min(ann_data$Value) / (3.2 - 1.2))
+
+    if (plot_direction[1] == "vertical") {
+      p <- p +
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Value,
+                        y = Pos),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
+    } else if (plot_direction[1] == "horizontal") {
+      p <- p +
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Pos,
+                        y = Value),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
+    }
+
+    # plot fan shape
+    p <- ggfanplot(
+      p,
+      plot_type = ann_type[1],
+      plot_direction = plot_direction[1],
+      fan_start = 3,
+      fan_end = 4,
+      tip_length = 0.1,
+      ann_data = ann_data,
+      htext_direction = ggfanplot_args$htext_direction[1],
+      replusive = ggfanplot_args$replusive,
+      text_size = ggfanplot_args$text_size,
+      text_color = ggfanplot_args$text_color,
+      shape_size = ggfanplot_args$shape_size,
+      shape_color = ggfanplot_args$shape_color,
+      shape_repel = ggfanplot_args$shape_repel
+    )
+  }
 
 
+  ##############################
+  # textshapeline
+  if (ann_type[1] == "textshapeline") {
+    # plot line first
+    ann_data$Value <-
+      ann_data$Value / ((max(ann_data$Value) - min(ann_data$Value)) / (2.2 - 1.2)) + (1.2 - min(ann_data$Value) / (2.2 - 1.2))
+
+    if (plot_direction[1] == "vertical") {
+      p <- p +
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Value,
+                        y = Pos),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
+    } else if (plot_direction[1] == "horizontal") {
+      p <- p +
+        geom_path(
+          data = ann_data,
+          mapping = aes(x = Pos,
+                        y = Value),
+          size = ann_line_args$size,
+          color = ann_line_args$color,
+          linetype = ann_line_args$linetype
+        )
+    }
+
+    # plot fan textshape
+    p <- ggfanplot(
+      p,
+      plot_type = ann_type[1],
+      plot_direction = plot_direction[1],
+      fan_start = 2,
+      fan_end = 3,
+      tip_length = 0.1,
+      ann_data = ann_data,
+      htext_direction = ggfanplot_args$htext_direction[1],
+      replusive = ggfanplot_args$replusive,
+      text_size = ggfanplot_args$text_size,
+      text_color = ggfanplot_args$text_color,
+      shape_size = ggfanplot_args$shape_size,
+      shape_color = ggfanplot_args$shape_color,
+      shape_repel = ggfanplot_args$shape_repel
+    )
+  }
 
 
-  # print plot
-  ggsave("p.pdf", p2, height = 8, width = 8)
+  ##############################################################
+  ## print plot
+  p
 }

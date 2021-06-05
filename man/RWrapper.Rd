@@ -43,7 +43,7 @@ write_tcsv(
 \item{x}{typically a data frame or tibble}
 }
 \description{
-Wrapper for reading/writing table/csv files with sensible defaults.
+Wrapper for reading/writing table/csv files into/from a data frame with sensible defaults.
 }
 \author{
 Yujie Liu

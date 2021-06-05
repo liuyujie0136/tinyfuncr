@@ -35,10 +35,10 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 * `spirograph`: Draw Spirograph
 * `ggbetweenstats_wrapper`: Wrapper for `(grouped_)ggbetweenstats` in `ggstatsplot`
 * `ggchrom`: Annotate chromosome using `ggplot2`
-  * `calcDensity`
-    * `calcDensityGFF`
-  * `ggfanplot`
-  * `ggideogram`
+  * `calcDensity`: Calculate density in a given region
+    * `calcDensityGFF`: Calculate gene density on chromosome
+  * `ggfanplot`: Add "fanplot" to chromosome
+  * `ggideogram`: Plot ideogram and annotations on chromosome
 
 ## Dependencies
 
