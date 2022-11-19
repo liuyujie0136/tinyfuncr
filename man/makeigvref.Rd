@@ -13,7 +13,7 @@ makeigvref(refid)
 Make reference genome information used in IGViewer.
 }
 \examples{
-makeigvref("hg38")
+#makeigvref("hg38")
 }
 \author{
 Yujie Liu

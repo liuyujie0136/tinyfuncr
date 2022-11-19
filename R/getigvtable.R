@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' getigvtable()
+#' #getigvtable()
 
 
 getigvtable <- function() {

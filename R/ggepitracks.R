@@ -33,11 +33,11 @@ ggepitracks <- function(locus_file,
   # check dependencies
   .check_windows()
   .check_bedtools()
-  
+
   # make output dirs
   dir_name <- paste0(out_dir, "/")
   system(paste0("mkdir -p ", dir_name))
-  
+
   # read in and parse track info
   track_info <- tinyfuncr::read_tcsv(track_conf, header = F)
   colnames(track_info) <-
@@ -48,25 +48,25 @@ ggepitracks <- function(locus_file,
       "y_max",
       "color",
       "group")
-  
+
   # read loci info
   loci <- tinyfuncr::read_tcsv(locus_file, header = F)
   colnames(loci) <- c("chr", "start", "end", "name")
-  
+
   # loop against each locus and plot tracks
   for (locus_idx in 1:nrow(loci)) {
     # parse info of this locus and make granges
     chrom <- loci[locus_idx, 1]
     begin <- loci[locus_idx, 2] - 30
     end <- loci[locus_idx, 3] + 30
-    name <- loci[locus_idx, 4]
-    
+    locus_name <- loci[locus_idx, 4]
+
     tinyfuncr::write_tcsv(
       data.frame(chrom, as.character(begin), as.character(end)),
       file = "tmp_locus.bed",
       col.names = F
     )
-    
+
     # extract annotation region within this locus
     if (!is.null(ann_region)) {
       system(
@@ -82,7 +82,7 @@ ggepitracks <- function(locus_file,
     } else {
       this_mark_region <- NULL
     }
-    
+
     # extract gene model within this locus
     system(
       paste(
@@ -93,7 +93,7 @@ ggepitracks <- function(locus_file,
     )
     this_locus_model <-
       tinyfuncr::read_tcsv("tmp_model.bed", header = F)
-    
+
     # plot gene model for this locus
     p_model <- epiplot_model(
       model = this_locus_model,
@@ -101,7 +101,7 @@ ggepitracks <- function(locus_file,
       start = begin,
       end = end
     )
-    
+
     # loop against each track and plot for this locus
     for (track_idx in 1:nrow(track_info)) {
       if (track_info[track_idx, "track_type"] == "BS-seq") {
@@ -126,7 +126,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
-          
+
           # plot bsseq tracks
           p_track <-
             epiplot_bsseq(
@@ -140,7 +140,7 @@ ggepitracks <- function(locus_file,
               ann_df = this_mark_region,
               ann_color = ann_color
             )
-          
+
           # merge plot
           if (track_idx == 1) {
             p_merge <-
@@ -173,7 +173,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
-          
+
           # CHG
           bw_CHG <-
             rtracklayer::import.bw(bsseq_info[track_idx_in_bsseq, "CHG"])
@@ -185,7 +185,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
-          
+
           # CHH
           bw_CHH <-
             rtracklayer::import.bw(bsseq_info[track_idx_in_bsseq, "CHH"])
@@ -197,7 +197,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
-          
+
           # plot multi C type bsseq
           p_track <-
             epiplot_bsseq_multi(
@@ -212,7 +212,7 @@ ggepitracks <- function(locus_file,
               ann_df = this_mark_region,
               ann_color = ann_color
             )
-          
+
           # merge plot
           if (track_idx == 1) {
             p_merge <-
@@ -246,7 +246,7 @@ ggepitracks <- function(locus_file,
             start = begin,
             end = end
           ))[c(1, 2, 3, 6)]
-        
+
         # plot coverage
         p_track <-
           epiplot_cov(
@@ -260,7 +260,7 @@ ggepitracks <- function(locus_file,
             ann_df = this_mark_region,
             ann_color = ann_color
           )
-        
+
         # merge plot
         if (track_idx == 1) {
           p_merge <-
@@ -283,9 +283,13 @@ ggepitracks <- function(locus_file,
         }
       }
     }
-    p_merge
+    ggsave(
+      paste0(dir_name, locus_name, ".pdf"),
+      p_merge,
+      width = 6,
+      height = 4
+    )
   }
-  
 }
 
 
@@ -330,9 +334,9 @@ epiplot_model <- function(model, chr, start, end) {
     model_info <- rbind(model_info, tmp)
   }
   model_info <- model_info[order(model_info$Start),]
-  
+
   # make draw data
-  
+
   # parse coord
   genes_to_plot <- unique(model_info$ID)
   model_info$Group <-
@@ -345,7 +349,7 @@ epiplot_model <- function(model, chr, start, end) {
     unlist(lapply(model_info$End, function(x)
       min(x, end)))
   model_info <- model_info[model_info$Start <= model_info$End, ]
-  
+
   # split body and end
   model_info_group_first <-
     model_info[!duplicated(model_info$Group), ]
@@ -357,7 +361,7 @@ epiplot_model <- function(model, chr, start, end) {
     model_info_group_last[order(model_info_group_last$Group), ]
   model_info_group_length <-
     model_info_group_last$End - model_info_group_first$Start
-  
+
   for (group_idx in 1:nrow(model_info_group_first)) {
     if (model_info_group_first[group_idx, 6] == "+") {
       model_info_group_first[group_idx,] <-
@@ -398,7 +402,7 @@ epiplot_model <- function(model, chr, start, end) {
               Group = rep(model_info_group_first[group_idx, "Group"], 5)
             ))
   }
-  
+
   # extract three context
   model_info_name <- model_info[!duplicated(model_info$Group), ]
   model_info_CDS <- model_info[model_info$Type == "CDS", ]
@@ -413,7 +417,7 @@ epiplot_model <- function(model, chr, start, end) {
   model_info_end_UTR <-
     model_info_end[model_info_end$Type == "5UTR" |
                      model_info_end$Type == "3UTR", ]
-  
+
   # plot
   p_model <-
     ggplot() +
@@ -492,7 +496,7 @@ epiplot_model <- function(model, chr, start, end) {
       color = "black",
       fill = "grey"
     )
-  
+
   # return
   p_model
 }
@@ -504,7 +508,7 @@ epiplot_cov <- function(bw_df,
                         end,
                         y_min,
                         y_max,
-                        track_names,
+                        track_name,
                         track_color,
                         ann_df = NULL,
                         ann_color = "goldenrod1") {
@@ -537,7 +541,7 @@ epiplot_cov <- function(bw_df,
       color = NA,
       fill = track_color
     )
-  
+
   if (!is.null(ann_df)) {
     p <- p +
       geom_rect(
@@ -561,7 +565,7 @@ epiplot_cov <- function(bw_df,
         color = "black"
       )
   }
-  
+
   p
 }
 
@@ -572,7 +576,7 @@ epiplot_bsseq <- function(bw_df,
                           end,
                           y_min,
                           y_max,
-                          track_names,
+                          track_name,
                           track_color,
                           ann_df = NULL,
                           ann_color = "goldenrod1") {
@@ -604,7 +608,7 @@ epiplot_bsseq <- function(bw_df,
       ),
       color = track_color
     )
-  
+
   if (!is.null(ann_df)) {
     p <- p +
       geom_rect(
@@ -628,7 +632,7 @@ epiplot_bsseq <- function(bw_df,
         color = "black"
       )
   }
-  
+
   p
 }
 
@@ -641,7 +645,7 @@ epiplot_bsseq_multi <- function(CG_df,
                                 end,
                                 y_min,
                                 y_max,
-                                track_names,
+                                track_name,
                                 ann_df = NULL,
                                 ann_color = "goldenrod1") {
   p <-
@@ -693,7 +697,7 @@ epiplot_bsseq_multi <- function(CG_df,
       color = "red",
       alpha = 0.6
     )
-  
+
   if (!is.null(ann_df)) {
     p <- p +
       geom_rect(
@@ -717,6 +721,6 @@ epiplot_bsseq_multi <- function(CG_df,
         color = "black"
       )
   }
-  
+
   p
 }

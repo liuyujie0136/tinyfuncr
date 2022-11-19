@@ -12,7 +12,7 @@
 #' @author Yujie Liu
 #'
 #' @examples
-#' makeigvref("hg38")
+#' #makeigvref("hg38")
 
 
 makeigvref <- function(refid) {

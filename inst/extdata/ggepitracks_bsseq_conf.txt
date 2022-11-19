@@ -1,0 +1,2 @@
+Seedling	/processing_data/rice_methylome/Nip_seedling_CG.bw	/processing_data/rice_methylome/Nip_seedling_CHG.bw	/processing_data/rice_methylome/Nip_seedling_CHH.bw	NA
+Base	/processing_data/rice_methylome/WT_base_CG.bw	/processing_data/rice_methylome/WT_base_CHG.bw	/processing_data/rice_methylome/WT_base_CHH.bw	NA

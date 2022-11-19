@@ -17,11 +17,11 @@
 #' @export
 #'
 #' @examples
-#' df <- data.frame(x = 1:5, y = 6:10)
-#' plot(df)
-#' g <- ggplot(df) + geom_point(aes(x, y))
-#' plotsave(open = TRUE)
-#' plotsave(g, "pptx", "myggplot")
+#' #df <- data.frame(x = 1:5, y = 6:10)
+#' #plot(df)
+#' #g <- ggplot(df) + geom_point(aes(x, y))
+#' #plotsave(open = TRUE)
+#' #plotsave(g, "pptx", "myggplot")
 
 
 

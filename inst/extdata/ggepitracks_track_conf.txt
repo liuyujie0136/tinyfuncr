@@ -1,0 +1,3 @@
+Seedling	BS-seq	CHH	-1	1	black	BS-seq
+Base	BS-seq	All	-1	1	black	BS-seq
+Spikelet	RNA-seq	/processing_data/rice_spikelet_mRNA/9522_S7_mRNA_rep1.bw	0	1000	black	RNA-seq
