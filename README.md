@@ -39,14 +39,17 @@ devtools::install_github("liuyujie0136/tinyfuncr")
     * `calcDensityGFF`: Calculate gene density on chromosome
   * `ggfanplot`: Add "fanplot" to chromosome
   * `ggideogram`: Plot ideogram and annotations on chromosome
+* `extractPos`: Extract all elements from GFF3 file
+* `genometracks`: Plot genome tracks for NGS data
+* `ggepitracks`: Plot epigenetic data tracks using ggplot2
 
 ## Dependencies
 
 * In `tidyverse`: `ggplot2`, `tibble`, `tidyr`, `readr`, `purrr`, `dplyr`, `stringr`
-* Data: `magrittr`, `reshape2`, `pairwiseComparisons`
+* Data: `magrittr`, `reshape2`, `pairwiseComparisons`, `data.table`
 * `ggplot2` extensions: `ggstatsplot`, `ggrepel`, `ggsignif`, `ggtree`
 * Color: `RColorBrewer`, `paletteer`
-* Bio: `Rsamtools`, `IRanges`, `GenomicRanges`
+* Bio: `Rsamtools`, `IRanges`, `GenomicRanges`, `rtracklayer`, `Biostrings`
 * Others:`export`, `eoffice`, `Rcpp`, `gmp`, `rlang`, `ipmisc`
 
 ## Bugs
