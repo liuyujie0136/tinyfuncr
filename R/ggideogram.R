@@ -23,6 +23,7 @@
 #' @param ann_line_args args used in `geom_path`, see [ggplot2::geom_path()]
 #'
 #' @import ggplot2
+#' @importFrom reshape2 melt
 #'
 #' @author Yujie Liu
 #' @export

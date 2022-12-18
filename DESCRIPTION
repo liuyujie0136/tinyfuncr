@@ -11,6 +11,7 @@ Imports:
   tidyr,
   purrr,
   magrittr,
+  reshape2,
   data.table,
   parallel,
   gmp,

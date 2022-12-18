@@ -31,7 +31,7 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 ## Dependencies
 
 * In `tidyverse`: `ggplot2`, `dplyr`, `stringr`, `tidyr`, `purrr`
-* Data: `magrittr`, `data.table`
+* Data: `magrittr`, `reshape2`, `data.table`
 * `ggplot2` extensions: `ggstatsplot`, `ggrepel`, `ggsignif`, `ggtree`, `patchwork`, `cowplot`
 * Color: `RColorBrewer`, `paletteer`
 * Bio: `GenomicRanges`, `rtracklayer`

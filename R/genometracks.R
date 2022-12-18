@@ -32,11 +32,11 @@ genometracks <- function(bed_file,
   .check_bedtools()
   .check_bwtool()
   .check_datatable()
-  
+
   # make output dirs
   dir_name <- paste0(out_dir, "/")
   system(paste0("mkdir -p ", dir_name))
-  
+
   # read in and parse track info
   track_info <- read_tcsv(track_conf, header = F)
   colnames(track_info) <-
@@ -46,11 +46,11 @@ genometracks <- function(bed_file,
       "y_max",
       "color",
       "group")
-  
+
   # read loci info
   loci <- read_tcsv(bed_file, header = F)
   colnames(loci) <- c("chr", "start", "end", "name")
-  
+
   # loop against each locus and plot tracks
   for (idx in 1:nrow(loci)) {
     # parse info of this locus
@@ -58,7 +58,7 @@ genometracks <- function(bed_file,
     begin <- loci[idx, 2] - 30
     end <- loci[idx, 3] + 30
     name <- loci[idx, 4]
-    
+
     # extract annotation region within this locus
     write_tcsv(
       data.frame(chrom, as.character(begin), as.character(end)),
@@ -78,7 +78,7 @@ genometracks <- function(bed_file,
     } else {
       this_mark_region <- NULL
     }
-    
+
     # extract the signal for this locus
     track_data <-
       track_extract(
@@ -89,7 +89,7 @@ genometracks <- function(bed_file,
         binsize = 5,
         custom_names = track_info$track_name
       )
-    
+
     # plot
     if (out_format == "png") {
       png(
@@ -124,7 +124,7 @@ genometracks <- function(bed_file,
       boxcolalpha = 0.4
     )
     dev.off()
-    
+
     system("rm -rf tmp_locus.bed tmp_ann.bed tmp_model.bed")
   }
 }
@@ -172,12 +172,6 @@ genometracks <- function(bed_file,
     message("Could not find data.table library. Attempting to install..")
     install.packages("data.table")
   }
-  suppressPackageStartupMessages(expr = library(
-    "data.table",
-    quietly = TRUE,
-    warn.conflicts = FALSE,
-    verbose = FALSE
-  ))
 }
 
 
@@ -196,7 +190,7 @@ track_extract <- function(bigWigs,
                showWarnings = FALSE,
                recursive = TRUE)
   }
-  
+
   # parse locus
   if (start >= end) {
     stop("End must be larger than Start!")
@@ -210,7 +204,7 @@ track_extract <- function(bigWigs,
           " [",
           end - start,
           " bps]")
-  
+
   # check bigwig files
   if (is.null(bigWigs)) {
     stop("Provide at-least one bigWig file")
@@ -220,14 +214,14 @@ track_extract <- function(bigWigs,
       stop(paste0(as.character(bigWigs)[i], " does not exist!"))
     }
   }
-  
+
   # check track names
   if (!is.null(custom_names)) {
     if (length(custom_names) != length(bigWigs)) {
       stop("Please provide names for all bigWigs")
     }
   }
-  
+
   # split to each bin and summary track info
   windows <- .gen_windows(
     chr = chr,
@@ -253,7 +247,7 @@ track_extract <- function(bigWigs,
                          window_size,
                          op_dir) {
   message(paste0("Generating windows ", "[", window_size, " bp window size]"))
-  
+
   window_dat <- data.table::data.table()
   while (start <= end) {
     window_dat <- data.table::rbindlist(l = list(
@@ -265,7 +259,7 @@ track_extract <- function(bigWigs,
   }
   window_dat$chr <- chr
   window_dat <- window_dat[, .(chr, start, end)]
-  
+
   temp_op_bed <- tempfile(pattern = "trackr",
                           tmpdir = op_dir,
                           fileext = ".bed")
@@ -286,7 +280,7 @@ track_extract <- function(bigWigs,
                         op_dir = getwd(),
                         nthreads = 1) {
   message(paste0("Extracting signals"))
-  
+
   # summary using bwtool
   summaries <- parallel::mclapply(
     bigWigs,
@@ -306,7 +300,7 @@ track_extract <- function(bigWigs,
     },
     mc.cores = nthreads
   )
-  
+
   summary_list <- lapply(summaries, function(x) {
     x = data.table::fread(x)
     colnames(x)[1] = 'chromosome'
@@ -319,12 +313,12 @@ track_extract <- function(bigWigs,
     }
     x
   })
-  
+
   # remove intermediate files
   lapply(summaries, function(x)
     system(command = paste0("rm ", x), intern = TRUE))
   system(command = paste0("rm ", bedSimple), intern = TRUE)
-  
+
   names(summary_list) <- gsub(
     pattern = "*\\.summary$",
     replacement = "",
@@ -355,16 +349,16 @@ track_plot <- function(summary_list,
   if (is.null(summary_list)) {
     stop("Missing input! Expecting output from track_extract()")
   }
-  
+
   chr <- summary_list$loci[1]
   start <- as.numeric(summary_list$loci[2])
   end <- as.numeric(summary_list$loci[3])
   summary_list$loci <- NULL
-  
+
   if (length(col) != length(summary_list)) {
     col <- rep(x = col, length(summary_list))
   }
-  
+
   plot_regions = FALSE
   if (!is.null(regions)) {
     if (is(object = regions, class2 = "data.frame")) {
@@ -384,11 +378,11 @@ track_plot <- function(summary_list,
       )
     }
   }
-  
+
   if (!is.null(track_names)) {
     names(summary_list) <- track_names
   }
-  
+
   if (!is.null(y_max)) {
     if (length(y_max) != length(summary_list)) {
       y_max <- rep(y_max, length(summary_list))
@@ -397,7 +391,7 @@ track_plot <- function(summary_list,
   } else{
     plot_height <- round(plot_height, digits = 2)
   }
-  
+
   if (!is.null(y_min)) {
     if (length(y_min) != length(summary_list)) {
       y_min <- rep(y_min, length(summary_list))
@@ -406,14 +400,14 @@ track_plot <- function(summary_list,
   } else{
     plot_height_min <- round(plot_height_min, digits = 2)
   }
-  
+
   # plot layout
   ntracks <- length(summary_list)
   lo <- layout(
     mat = matrix(data = seq_len(ntracks + 2)),
     heights = c(xaxis_track_height, gene_track_height, rep(3, ntracks))
   )
-  
+
   # draw x-axis
   if (show_axis) {
     par(mar = c(0, 4, 0, 0))
@@ -455,7 +449,7 @@ track_plot <- function(summary_list,
   #  xpd = TRUE
   #)
   ##############add plot name
-  
+
   # draw gene models
   if (draw_gene_track) {
     if (show_axis) {
@@ -464,7 +458,7 @@ track_plot <- function(summary_list,
       par(mar = c(0.25, 1, 0, 0.5))
     }
     #par(mar = c(1, 1, 3, 1), cex = 1)
-    
+
     # extract gene models within this locus
     system(
       paste(
@@ -490,7 +484,7 @@ track_plot <- function(summary_list,
         )
       model_info <- rbind(model_info, tmp)
     }
-    
+
     # draw for each gene
     genes_to_plot <- unique(model_info$ID)
     plot(
@@ -502,13 +496,13 @@ track_plot <- function(summary_list,
       xlab = NA,
       ylab = NA
     )
-    
+
     for (idx in 1:length(genes_to_plot)) {
       this_gene <- genes_to_plot[idx]
       this_gene_model <- model_info[model_info$ID == this_gene,]
       this_gene_model <-
         this_gene_model[order(this_gene_model$Start),]
-      
+
       text(
         x = start,
         y = idx - 0.5,
@@ -516,10 +510,10 @@ track_plot <- function(summary_list,
         adj = 0,
         cex = gene_fsize
       )
-      
+
       for (i in 1:nrow(this_gene_model)) {
         type <- this_gene_model[i, "Type"]
-        
+
         if (type == "CDS") {
           rect(
             xleft = this_gene_model$Start[i],
@@ -562,7 +556,7 @@ track_plot <- function(summary_list,
           )
         }
       }
-      
+
       if (this_gene_model[1, 6] == "+") {
         x <-
           c(
@@ -574,7 +568,7 @@ track_plot <- function(summary_list,
           )
         y <-
           c(idx - 0.4, idx - 0.6, idx - 0.6, idx - 0.5, idx - 0.4)
-        
+
         endtype <- this_gene_model$Type[nrow(this_gene_model)]
         if (endtype == "CDS") {
           polygon(x,
@@ -600,7 +594,7 @@ track_plot <- function(summary_list,
           )
         y <-
           c(idx - 0.4, idx - 0.6, idx - 0.6, idx - 0.5, idx - 0.4)
-        
+
         endtype <- this_gene_model$Type[1]
         if (endtype == "CDS") {
           polygon(x,
@@ -629,10 +623,10 @@ track_plot <- function(summary_list,
       #  )
       #}
       ###################################################
-      
+
     }
   }
-  
+
   # draw bigWig signals
   lapply(1:length(summary_list), function(idx) {
     x <- summary_list[[idx]]
@@ -641,7 +635,7 @@ track_plot <- function(summary_list,
     } else{
       par(mar = c(0.5, 1, 2, 1))
     }
-    
+
     plot(
       NA,
       xlim = c(start, end),
@@ -682,7 +676,7 @@ track_plot <- function(summary_list,
         xpd = TRUE
       )
     }
-    
+
     if (plot_regions) {
       boxcol <- grDevices::adjustcolor(boxcol, alpha.f = boxcolalpha)
       if (nrow(regions) > 0) {
@@ -743,7 +737,7 @@ track_plot <- function(summary_list,
         }
       }
     }
-    
+
     title(
       main = names(summary_list)[idx],
       adj = track_names_pos,

@@ -143,7 +143,7 @@ ggbetweenstats_wrapper <- function(data,
   plotlist <-
     purrr::pmap(
       .l = list(data = df, title = names(df)),
-      .f = tinyfuncr:::ggbetweenstats_wrapper_main,
+      .f = ggbetweenstats_wrapper_main,
       # put common parameters here
       x = {{ x }},
       y = {{ y }},
@@ -364,7 +364,7 @@ ggbetweenstats_wrapper_main <-
     # preparing the caption for pairwise comparisons test
     if (type != "bayes") {
       caption <-
-        ggstatsplot::pairwise_caption(
+        ggstatsplot:::pairwise_caption(
           caption,
           unique(df_pairwise$test.details),
           pairwise.display
@@ -401,7 +401,7 @@ ggbetweenstats_wrapper_main <-
     if (dim(df_pairwise)[[1]] != 0) {
       plot <-
         plot + rlang::exec(
-          .f = tinyfuncr::geom_signif_wrapper,
+          .f = geom_signif_wrapper,
           data = no_outliers,
           mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}),
           comparisons = df_pairwise$groups,
