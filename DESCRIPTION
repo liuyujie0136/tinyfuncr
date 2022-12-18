@@ -4,38 +4,27 @@ Title: tiny R functions
 Description: A collection of tiny R functions for handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
-Version: 0.3.0
+Version: 1.0.0
 Imports: 
-  export,
-  eoffice,
-  tibble,
   dplyr,
-  readr,
   stringr,
-  magrittr,
   tidyr,
   purrr,
-  reshape2,
-  IRanges,
-  GenomicRanges,
-  Biostrings,
-  rtracklayer,
-  Rsamtools,
-  Rcpp,
-  ggplot2,
-  RColorBrewer,
-  patchwork,
-  cowplot,
+  magrittr,
+  data.table,
+  parallel,
   gmp,
-  ggstatsplot,
-  pairwiseComparisons,
-  ggrepel,
-  ggsignif,
-  paletteer,
   rlang,
   ipmisc,
-  data.table,
-  parallel
+  ggsignif,
+  ggstatsplot,
+  ggrepel,
+  paletteer,
+  rtracklayer,
+  GenomicRanges,
+  ggplot2,
+  RColorBrewer,
+  cowplot
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

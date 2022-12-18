@@ -10,10 +10,10 @@
 #' @param out_format format of output figures, one of "png" and "pdf"
 #' @param out_dir path to output directory, create it if not exist
 #'
-#' @import data.table
-#' @import parallel
-#' @import stringr
 #' @import magrittr
+#' @importFrom data.table data.table as.data.table rbindlist fread fwrite
+#' @importFrom parallel mclapply
+#' @importFrom stringr str_split
 #'
 #' @author Yujie Liu
 #' @export genometracks
@@ -38,7 +38,7 @@ genometracks <- function(bed_file,
   system(paste0("mkdir -p ", dir_name))
   
   # read in and parse track info
-  track_info <- tinyfuncr::read_tcsv(track_conf, header = F)
+  track_info <- read_tcsv(track_conf, header = F)
   colnames(track_info) <-
     c("track_name",
       "track_file",
@@ -48,7 +48,7 @@ genometracks <- function(bed_file,
       "group")
   
   # read loci info
-  loci <- tinyfuncr::read_tcsv(bed_file, header = F)
+  loci <- read_tcsv(bed_file, header = F)
   colnames(loci) <- c("chr", "start", "end", "name")
   
   # loop against each locus and plot tracks
@@ -60,7 +60,7 @@ genometracks <- function(bed_file,
     name <- loci[idx, 4]
     
     # extract annotation region within this locus
-    tinyfuncr::write_tcsv(
+    write_tcsv(
       data.frame(chrom, as.character(begin), as.character(end)),
       file = "tmp_locus.bed",
       col.names = F
@@ -74,7 +74,7 @@ genometracks <- function(bed_file,
         )
       )
       this_mark_region <-
-        tinyfuncr::read_tcsv("tmp_ann.bed", header = F)
+        read_tcsv("tmp_ann.bed", header = F)
     } else {
       this_mark_region <- NULL
     }
@@ -474,7 +474,7 @@ track_plot <- function(summary_list,
       )
     )
     model <-
-      tinyfuncr::read_tcsv("tmp_model.bed", header = F)
+      read_tcsv("tmp_model.bed", header = F)
     tmp_model_info <-
       model[[4]] %>% stringr::str_split("_") %>% as.data.frame() %>% t() %>% as.data.frame()
     model_info <- data.frame()

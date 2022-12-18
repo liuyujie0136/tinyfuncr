@@ -23,7 +23,7 @@
 #'   **significant** comparisons will be shown by default. To change this
 #'   behavior, select appropriate option with `pairwise.display` argument. The
 #'   pairwise comparison dataframes are prepared using the
-#'   `pairwiseComparisons::pairwise_comparisons` function. For more details
+#'   `ggstatsplot::pairwise_comparisons` function. For more details
 #'   about pairwise comparisons, see the documentation for that function.
 #' @param p.adjust.method Adjustment method for *p*-values for multiple
 #'   comparisons. Possible methods are: `"holm"` (default), `"hochberg"`,
@@ -99,7 +99,6 @@
 #' @importFrom rlang enquo as_name !! as_string ensym
 #' @importFrom paletteer scale_color_paletteer_d scale_fill_paletteer_d
 #' @importFrom ggsignif geom_signif
-#' @importFrom pairwiseComparisons pairwise_comparisons pairwise_caption
 #' @importFrom purrr pmap
 #' @importFrom ipmisc stats_type_switch
 #' @importFrom tidyr drop_na
@@ -350,7 +349,7 @@ ggbetweenstats_wrapper_main <-
   if (isTRUE(pairwise.comparisons) && test == "anova") {
     # creating dataframe with pairwise comparison results
     df_pairwise <-
-      pairwiseComparisons::pairwise_comparisons(
+      ggstatsplot::pairwise_comparisons(
         data = data,
         x = {{ x }},
         y = {{ y }},
@@ -365,7 +364,7 @@ ggbetweenstats_wrapper_main <-
     # preparing the caption for pairwise comparisons test
     if (type != "bayes") {
       caption <-
-        pairwiseComparisons::pairwise_caption(
+        ggstatsplot::pairwise_caption(
           caption,
           unique(df_pairwise$test.details),
           pairwise.display

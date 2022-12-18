@@ -10,17 +10,17 @@
 #' @param ann_color color of annotated regions
 #' @param out_dir path to output directory, create it if not exist
 #'
-#' @import GenomicRanges
-#' @import rtracklayer
-#' @import stringr
 #' @import magrittr
 #' @import ggplot2
-#' @import cowplot
-#' @import patchwork
+#' @importFrom rtracklayer import.bw
+#' @importFrom GenomicRanges split seqnames restrict
+#' @importFrom cowplot plot_grid
+#' @importFrom stringr str_split
 #'
 #' @author Yujie Liu
 #' @export ggepitracks
 #'
+
 
 ######################### main IO #########################
 ggepitracks <- function(locus_file,
@@ -39,7 +39,7 @@ ggepitracks <- function(locus_file,
   system(paste0("mkdir -p ", dir_name))
 
   # read in and parse track info
-  track_info <- tinyfuncr::read_tcsv(track_conf, header = F)
+  track_info <- read_tcsv(track_conf, header = F)
   colnames(track_info) <-
     c("track_name",
       "track_type",
@@ -50,7 +50,7 @@ ggepitracks <- function(locus_file,
       "group")
 
   # read loci info
-  loci <- tinyfuncr::read_tcsv(locus_file, header = F)
+  loci <- read_tcsv(locus_file, header = F)
   colnames(loci) <- c("chr", "start", "end", "name")
 
   # loop against each locus and plot tracks
@@ -61,7 +61,7 @@ ggepitracks <- function(locus_file,
     end <- loci[locus_idx, 3] + 30
     locus_name <- loci[locus_idx, 4]
 
-    tinyfuncr::write_tcsv(
+    write_tcsv(
       data.frame(chrom, as.character(begin), as.character(end)),
       file = "tmp_locus.bed",
       col.names = F
@@ -77,7 +77,7 @@ ggepitracks <- function(locus_file,
         )
       )
       this_mark_region <-
-        tinyfuncr::read_tcsv("tmp_ann.bed", header = F)
+        read_tcsv("tmp_ann.bed", header = F)
       colnames(this_mark_region) <- c("chr", "start", "end", "name")
     } else {
       this_mark_region <- NULL
@@ -92,7 +92,7 @@ ggepitracks <- function(locus_file,
       )
     )
     this_locus_model <-
-      tinyfuncr::read_tcsv("tmp_model.bed", header = F)
+      read_tcsv("tmp_model.bed", header = F)
 
     # plot gene model for this locus
     p_model <- epiplot_model(
@@ -105,7 +105,7 @@ ggepitracks <- function(locus_file,
     # loop against each track and plot for this locus
     for (track_idx in 1:nrow(track_info)) {
       if (track_info[track_idx, "track_type"] == "BS-seq") {
-        bsseq_info <- tinyfuncr::read_tcsv(bsseq_conf, header = F)
+        bsseq_info <- read_tcsv(bsseq_conf, header = F)
         colnames(bsseq_info) <-
           c("track_name",
             "CG",

@@ -6,11 +6,9 @@
 #' @param chr_len_file file containing chromosome length
 #' @param bed_file BED file for output
 #'
-#' @import Biostrings
-#' @import rtracklayer
 #' @import magrittr
-#' @import dplyr
-#' @import readr
+#' @importFrom rtracklayer import.gff
+#' @importFrom GenomicRanges promoters
 #'
 #' @author Yujie Liu
 #' @export
@@ -18,7 +16,7 @@
 
 extractPos <- function(gff_file, chr_len_file, bed_file) {
   # load data
-  ann <- rtracklayer::import(gff_file)
+  ann <- rtracklayer::import.gff(gff_file)
   chr_len <-
     read.table(
       chr_len_file,
@@ -30,7 +28,7 @@ extractPos <- function(gff_file, chr_len_file, bed_file) {
   
   # extract promoter info
   promoters <-
-    promoters(ann[ann$type == "gene"], upstream = 1500, downstream = 0) %>% as.data.frame() %>% .[c("seqnames", "start", "end", "strand", "ID")]
+    GenomicRanges::promoters(ann[ann$type == "gene"], upstream = 1500, downstream = 0) %>% as.data.frame() %>% .[c("seqnames", "start", "end", "strand", "ID")]
   
   # convert to df
   ann %<>% as.data.frame()

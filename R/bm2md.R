@@ -7,9 +7,8 @@
 #' @param safari whether this file is exported from MacOS Safari, default FALSE
 #' @param add.rules additional rules for some strange items. It should be a tibble or data frame, with first column being `pattern`, second being `replacement` (used in function `stringr::str_replace_all()`). All items should be written in string form of regular expression.
 #'
-#' @import readr
-#' @import stringr
-#' @importFrom utils write.table
+#' @importFrom stringr str_replace str_replace_all
+#' @importFrom utils read.table write.table
 #'
 #' @author Yujie Liu
 #' @export
@@ -18,7 +17,7 @@
 #'
 #' ### Example additional rules
 #'
-#' add.rules <- tibble::tibble(
+#' add.rules <- data.frame(
 #'   pattern = c('.+HREF="(.+)" (LAST|ADD).+>(.+)',
 #'               "test"),
 #'   replacement = c("* [\\3](\\1)",
@@ -34,61 +33,66 @@ bm2md <-
            safari = FALSE,
            add.rules = NULL) {
 
-    html <- read_table(file, col_names = FALSE, col_types = "c")
+    html <-
+      read.table(
+        file,
+        sep = "\t",
+        quote = "",
+        comment.char = "",
+        fileEncoding = "UTF-8"
+      )
 
     if (safari) {
-
       html <- html[-(1:3), 1]
 
       for (i in 1:nrow(html)) {
         # Basic rules
-        html[[1]][i] <- str_replace(html[[1]][i],
-                                    '<DT><A HREF="(.+)">(.+)</A>',
-                                    "* [\\2](\\1)")
-        html[[1]][i] <-
-          str_replace(html[[1]][i], '<Title>(.+)</Title>', "# \\1")
-        html[[1]][i] <-
-          str_replace(html[[1]][i], '.+>(.+)</H3>', "## \\1")
-        html[[1]][i] <- str_replace(html[[1]][i], '&amp;', "&")
-        html[[1]][i] <- str_replace(html[[1]][i],
-                                    '(</?DL><p>)|(<H1>.+</H1>)|(</?HTML>)', "")
+        html[i] <- stringr::str_replace(html[i],
+                                        '<DT><A HREF="(.+)">(.+)</A>',
+                                        "* [\\2](\\1)")
+        html[i] <-
+          stringr::str_replace(html[i], '<Title>(.+)</Title>', "# \\1")
+        html[i] <-
+          stringr::str_replace(html[i], '.+>(.+)</H3>', "## \\1")
+        html[i] <- stringr::str_replace(html[i], '&amp;', "&")
+        html[i] <- stringr::str_replace(html[i],
+                                        '(</?DL><p>)|(<H1>.+</H1>)|(</?HTML>)', "")
 
         # Additional rules
         if (!is.null(add.rules)) {
           for (j in 1:nrow(add.rules)) {
-            html[[1]][i] <- str_replace_all(html[[1]][i],
-                                            add.rules[[1]][j],
-                                            add.rules[[2]][j])
+            html[i] <- stringr::str_replace_all(html[i],
+                                                add.rules[j],
+                                                add.rules[[2]][j])
           }
         }
       }
 
     } else {
-
       html <- html[-(1:5), 1]
 
-      for (i in 1:nrow(html)) {
+      for (i in 1:length(html)) {
         # Basic rules
-        html[[1]][i] <- str_replace(html[[1]][i],
-                                    '.+HREF="(.+)" (LAST|ADD).+>(.+)</A>',
-                                    "* [\\3](\\1)")
-        html[[1]][i] <-
-          str_replace(html[[1]][i], '<TITLE>(.+)</TITLE>', "# \\1")
-        html[[1]][i] <-
-          str_replace(html[[1]][i], '.+>(.+)</H3>', "## \\1")
-        html[[1]][i] <- str_replace(html[[1]][i], '&amp;', "&")
-        html[[1]][i] <- str_replace(html[[1]][i],
-                                    '(</?DL><p>)|(<H1>Bookmarks</H1>)', "")
+        html[i] <- stringr::str_replace(html[i],
+                                        '.+HREF="(.+)" (LAST|ADD).+>(.+)</A>',
+                                        "* [\\3](\\1)")
+        html[i] <-
+          stringr::str_replace(html[i], '<TITLE>(.+)</TITLE>', "# \\1")
+        html[i] <-
+          stringr::str_replace(html[i], '.+>(.+)</H3>', "## \\1")
+        html[i] <- stringr::str_replace(html[i], '&amp;', "&")
+        html[i] <- stringr::str_replace(html[i],
+                                        '(</?DL><p>)|(<H1>Bookmarks</H1>)', "")
         # Rule for "zhihu"
-        html[[1]][i] <- str_replace(html[[1]][i],
-                                    '.+HREF="(.+zhihu.+)" (LAST|ADD).+>(.+)',
-                                    "* [\\3](\\1)")
+        html[i] <- stringr::str_replace(html[i],
+                                        '.+HREF="(.+zhihu.+)" (LAST|ADD).+>(.+)',
+                                        "* [\\3](\\1)")
         # Additional rules
         if (!is.null(add.rules)) {
           for (j in 1:nrow(add.rules)) {
-            html[[1]][i] <- str_replace_all(html[[1]][i],
-                                            add.rules[[1]][j],
-                                            add.rules[[2]][j])
+            html[i] <- stringr::str_replace_all(html[i],
+                                                add.rules[j],
+                                                add.rules[[2]][j])
           }
         }
       }
@@ -97,7 +101,7 @@ bm2md <-
 
     write.table(
       html,
-      file = str_c(out, ".md", sep = ""),
+      file = paste0(out, ".md"),
       col.names = FALSE,
       row.names = FALSE,
       quote = FALSE,
