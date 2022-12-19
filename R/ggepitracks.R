@@ -101,6 +101,8 @@ ggepitracks <- function(locus_file,
       start = begin,
       end = end
     )
+    p_track <- list()
+    p_track[[1]] <- p_model
 
     # loop against each track and plot for this locus
     for (track_idx in 1:nrow(track_info)) {
@@ -128,7 +130,7 @@ ggepitracks <- function(locus_file,
             ))[c(1, 2, 3, 6)]
 
           # plot bsseq tracks
-          p_track <-
+          p_track[[track_idx + 1]] <-
             epiplot_bsseq(
               bw_df = bw_this_locus,
               start = begin,
@@ -142,25 +144,25 @@ ggepitracks <- function(locus_file,
             )
 
           # merge plot
-          if (track_idx == 1) {
-            p_merge <-
-              cowplot::plot_grid(
-                p_model,
-                p_track,
-                nrow = 2,
-                rel_heights = c(1, 3),
-                align = "h"
-              )
-          } else {
-            p_merge <-
-              cowplot::plot_grid(
-                p_merge,
-                p_track,
-                nrow = 2,
-                rel_heights = c(1 + 3 * (track_idx - 1), 3),
-                align = "h"
-              )
-          }
+          #if (track_idx == 1) {
+          #  p_merge <-
+          #    cowplot::plot_grid(
+          #      p_model,
+          #      p_track,
+          #      nrow = 2,
+          #      rel_heights = c(1, 3),
+          #      align = "h"
+          #    )
+          #} else {
+          #  p_merge <-
+          #    cowplot::plot_grid(
+          #      p_merge,
+          #      p_track,
+          #      nrow = 2,
+          #      rel_heights = c(1 + 3 * (track_idx - 1), 3),
+          #      align = "h"
+          #    )
+          #}
         } else {
           # CG
           bw_CG <-
@@ -199,7 +201,7 @@ ggepitracks <- function(locus_file,
             ))[c(1, 2, 3, 6)]
 
           # plot multi C type bsseq
-          p_track <-
+          p_track[[track_idx + 1]] <-
             epiplot_bsseq_multi(
               CG_df = bw_CG_this_locus,
               CHG_df = bw_CHG_this_locus,
@@ -214,25 +216,25 @@ ggepitracks <- function(locus_file,
             )
 
           # merge plot
-          if (track_idx == 1) {
-            p_merge <-
-              cowplot::plot_grid(
-                p_model,
-                p_track,
-                nrow = 2,
-                rel_heights = c(1, 3),
-                align = "h"
-              )
-          } else {
-            p_merge <-
-              cowplot::plot_grid(
-                p_merge,
-                p_track,
-                nrow = 2,
-                rel_heights = c(1 + 3 * (track_idx - 1), 3),
-                align = "h"
-              )
-          }
+          #if (track_idx == 1) {
+          #  p_merge <-
+          #    cowplot::plot_grid(
+          #      p_model,
+          #      p_track,
+          #      nrow = 2,
+          #      rel_heights = c(2, 3),
+          #      align = "h"
+          #    )
+          #} else {
+          #  p_merge <-
+          #    cowplot::plot_grid(
+          #      p_merge,
+          #      p_track,
+          #      nrow = 2,
+          #      rel_heights = c(2 + 3 * (track_idx - 1), 3),
+          #      align = "h"
+          #    )
+          #}
         }
       } else{
         # read in track file for non BS-seq data
@@ -248,7 +250,7 @@ ggepitracks <- function(locus_file,
           ))[c(1, 2, 3, 6)]
 
         # plot coverage
-        p_track <-
+        p_track[[track_idx + 1]] <-
           epiplot_cov(
             bw_df = bw_this_locus,
             start = begin,
@@ -262,27 +264,36 @@ ggepitracks <- function(locus_file,
           )
 
         # merge plot
-        if (track_idx == 1) {
-          p_merge <-
-            cowplot::plot_grid(
-              p_model,
-              p_track,
-              nrow = 2,
-              rel_heights = c(1, 3),
-              align = "h"
-            )
-        } else {
-          p_merge <-
-            cowplot::plot_grid(
-              p_merge,
-              p_track,
-              nrow = 2,
-              rel_heights = c(1 + 3 * (track_idx - 1), 3),
-              align = "h"
-            )
-        }
+        #if (track_idx == 1) {
+        #  p_merge <-
+        #    cowplot::plot_grid(
+        #      p_model,
+        #      p_track,
+        #      nrow = 2,
+        #      rel_heights = c(1, 3),
+        #      align = "h"
+        #    )
+        #} else {
+        #  p_merge <-
+        #    cowplot::plot_grid(
+        #      p_merge,
+        #      p_track,
+        #      nrow = 2,
+        #      rel_heights = c(1 + 3 * (track_idx - 1), 3),
+        #      align = "h"
+        #    )
+        #}
       }
     }
+
+    # merge plots
+    p_merge <-
+      cowplot::plot_grid(
+        plotlist = p_track,
+        nrow = 1 + nrow(track_info),
+        rel_heights = c(3, rep(3, nrow(track_info))),
+        align = "h"
+      )
     ggsave(
       paste0(dir_name, locus_name, ".pdf"),
       p_merge,
