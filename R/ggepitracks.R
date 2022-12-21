@@ -437,15 +437,22 @@ epiplot_model <- function(model, chr, start, end) {
       position = "top",
       expand = c(0, 0)
     ) +
-    scale_y_continuous(limits = c(0, length(genes_to_plot)), expand = c(0, 0)) +
+    scale_y_continuous(
+      limits = c(0, length(genes_to_plot)),
+      breaks = c(0, 0.5, length(genes_to_plot)),
+      expand = c(0, 0)
+    ) +
     theme_classic() + theme(
-      axis.title = element_blank(),
-      axis.line.x = element_line(color = "black", size = 1),
-      axis.line.y = element_blank(),
-      axis.ticks.y = element_blank(),
-      axis.text.y = element_blank(),
-      panel.grid = element_blank()
-    ) + geom_text(
+      axis.title.x = element_blank(),
+      axis.line.x = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.x = element_line(color = "black", linewidth = 0.4),
+      axis.text.x = element_text(color = "black"),
+      panel.grid = element_blank(),
+      axis.line.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.length.y = unit(4, "pt"),
+      axis.text.y = element_text(color = "black")
+    ) + ylab("Gene") + geom_text(
       data = model_info_name,
       mapping = aes(x = Start,
                     y = Group - 0.2,
@@ -471,7 +478,7 @@ epiplot_model <- function(model, chr, start, end) {
         yend = Group - 0.4
       ),
       color = "black",
-      size = 0.5
+      linewidth = 0.5
     ) + geom_segment(
       data = model_info_intron,
       mapping = aes(
@@ -481,7 +488,7 @@ epiplot_model <- function(model, chr, start, end) {
         yend = Group - 0.4
       ),
       color = "black",
-      size = 0.5
+      linewidth = 0.5
     ) + geom_rect(
       data = model_info_UTR,
       mapping = aes(
@@ -538,10 +545,11 @@ epiplot_cov <- function(bw_df,
       axis.ticks.x = element_blank(),
       axis.text.x = element_blank(),
       panel.grid = element_blank(),
-      axis.line.y = element_line(size = 1),
-      axis.ticks.y = element_line(size = 1),
-      axis.ticks.length.y = unit(6, "pt")
-    )  + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), size = 1) + geom_rect(
+      axis.line.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.length.y = unit(4, "pt"),
+      axis.text.y = element_text(color = "black")
+    )  + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_rect(
       data = bw_df,
       mapping = aes(
         xmin = start,
@@ -606,10 +614,11 @@ epiplot_bsseq <- function(bw_df,
       axis.ticks.x = element_blank(),
       axis.text.x = element_blank(),
       panel.grid = element_blank(),
-      axis.line.y = element_line(size = 1),
-      axis.ticks.y = element_line(size = 1),
-      axis.ticks.length.y = unit(6, "pt")
-    )  + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), size = 1) + geom_segment(
+      axis.line.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.length.y = unit(4, "pt"),
+      axis.text.y = element_text(color = "black")
+    )  + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_segment(
       data = bw_df,
       mapping = aes(
         x = start,
@@ -674,10 +683,11 @@ epiplot_bsseq_multi <- function(CG_df,
       axis.ticks.x = element_blank(),
       axis.text.x = element_blank(),
       panel.grid = element_blank(),
-      axis.line.y = element_line(size = 1),
-      axis.ticks.y = element_line(size = 1),
-      axis.ticks.length.y = unit(6, "pt")
-    ) + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), size = 1) + geom_segment(
+      axis.line.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks.length.y = unit(4, "pt"),
+      axis.text.y = element_text(color = "black")
+    ) + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_segment(
       data = CG_df,
       mapping = aes(
         x = start,
@@ -685,7 +695,7 @@ epiplot_bsseq_multi <- function(CG_df,
         y = 0,
         yend = score
       ),
-      color = "green",
+      color = "red",
       alpha = 0.6
     ) + geom_segment(
       data = CHG_df,
@@ -705,7 +715,7 @@ epiplot_bsseq_multi <- function(CG_df,
         y = 0,
         yend = score
       ),
-      color = "red",
+      color = "green",
       alpha = 0.6
     )
 
