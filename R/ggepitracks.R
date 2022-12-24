@@ -57,8 +57,8 @@ ggepitracks <- function(locus_file,
   for (locus_idx in 1:nrow(loci)) {
     # parse info of this locus and make granges
     chrom <- loci[locus_idx, 1]
-    begin <- loci[locus_idx, 2] - 30
-    end <- loci[locus_idx, 3] + 30
+    begin <- loci[locus_idx, 2]
+    end <- loci[locus_idx, 3]
     locus_name <- loci[locus_idx, 4]
 
     write_tcsv(
@@ -128,6 +128,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
+          bw_this_locus$end <- bw_this_locus$end + 1
 
           # plot bsseq tracks
           p_track[[track_idx + 1]] <-
@@ -175,6 +176,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
+          bw_CG_this_locus$end <- bw_CG_this_locus$end + 1
 
           # CHG
           bw_CHG <-
@@ -187,6 +189,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
+          bw_CHG_this_locus$end <- bw_CHG_this_locus$end + 1
 
           # CHH
           bw_CHH <-
@@ -199,6 +202,7 @@ ggepitracks <- function(locus_file,
               start = begin,
               end = end
             ))[c(1, 2, 3, 6)]
+          bw_CHH_this_locus$end <- bw_CHH_this_locus$end + 1
 
           # plot multi C type bsseq
           p_track[[track_idx + 1]] <-
@@ -618,15 +622,16 @@ epiplot_bsseq <- function(bw_df,
       axis.ticks.y = element_line(color = "black", linewidth = 0.6),
       axis.ticks.length.y = unit(4, "pt"),
       axis.text.y = element_text(color = "black")
-    )  + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_segment(
+    )  + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_rect(
       data = bw_df,
       mapping = aes(
-        x = start,
-        xend = end,
-        y = 0,
-        yend = score
+        xmin = start,
+        xmax = end,
+        ymin = 0,
+        ymax = score
       ),
-      color = track_color
+      color = NA,
+      fill = track_color
     )
 
   if (!is.null(ann_df)) {
@@ -687,36 +692,39 @@ epiplot_bsseq_multi <- function(CG_df,
       axis.ticks.y = element_line(color = "black", linewidth = 0.6),
       axis.ticks.length.y = unit(4, "pt"),
       axis.text.y = element_text(color = "black")
-    ) + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_segment(
+    ) + ylab(track_name) + geom_hline(mapping = aes(yintercept = 0), linewidth = 0.6) + geom_rect(
       data = CG_df,
       mapping = aes(
-        x = start,
-        xend = end,
-        y = 0,
-        yend = score
+        xmin = start,
+        xmax = end,
+        ymin = 0,
+        ymax = score
       ),
-      color = "red",
-      alpha = 0.6
-    ) + geom_segment(
+      color = NA,
+      fill = "red",
+      alpha = 1
+    ) + geom_rect(
       data = CHG_df,
       mapping = aes(
-        x = start,
-        xend = end,
-        y = 0,
-        yend = score
+        xmin = start,
+        xmax = end,
+        ymin = 0,
+        ymax = score
       ),
-      color = "blue",
-      alpha = 0.6
-    ) + geom_segment(
+      color = NA,
+      fill = "blue",
+      alpha = 1
+    ) + geom_rect(
       data = CHH_df,
       mapping = aes(
-        x = start,
-        xend = end,
-        y = 0,
-        yend = score
+        xmin = start,
+        xmax = end,
+        ymin = 0,
+        ymax = score
       ),
-      color = "green",
-      alpha = 0.6
+      color = NA,
+      fill = "green",
+      alpha = 1
     )
 
   if (!is.null(ann_df)) {
