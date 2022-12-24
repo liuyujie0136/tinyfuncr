@@ -79,6 +79,7 @@ ggepitracks <- function(locus_file,
       this_mark_region <-
         read_tcsv("tmp_ann.bed", header = F)
       colnames(this_mark_region) <- c("chr", "start", "end", "name")
+      this_mark_region$start <- this_mark_region$start + 1
     } else {
       this_mark_region <- NULL
     }
@@ -252,6 +253,7 @@ ggepitracks <- function(locus_file,
             start = begin,
             end = end
           ))[c(1, 2, 3, 6)]
+        bw_this_locus$end <- bw_this_locus$end + 1
 
         # plot coverage
         p_track[[track_idx + 1]] <-
@@ -340,7 +342,7 @@ epiplot_model <- function(model, chr, start, end) {
     tmp <-
       data.frame(
         Chr = model[i, 1],
-        Start = model[i, 2],
+        Start = model[i, 2] + 1,
         End = model[i, 3],
         ID = paste(tmp_model_info[i, 2:ncol(tmp_model_info)], collapse = "_"),
         Type = tmp_model_info[i, 1],
@@ -701,7 +703,7 @@ epiplot_bsseq_multi <- function(CG_df,
         ymax = score
       ),
       color = NA,
-      fill = "red",
+      fill = "#FF0000",
       alpha = 1
     ) + geom_rect(
       data = CHG_df,
@@ -712,7 +714,7 @@ epiplot_bsseq_multi <- function(CG_df,
         ymax = score
       ),
       color = NA,
-      fill = "blue",
+      fill = "#0070C0",
       alpha = 1
     ) + geom_rect(
       data = CHH_df,
@@ -723,7 +725,7 @@ epiplot_bsseq_multi <- function(CG_df,
         ymax = score
       ),
       color = NA,
-      fill = "green",
+      fill = "#00B050",
       alpha = 1
     )
 
