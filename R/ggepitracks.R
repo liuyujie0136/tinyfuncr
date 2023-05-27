@@ -80,6 +80,7 @@ ggepitracks <- function(locus_file,
         read_tcsv("tmp_ann.bed", header = F)
       colnames(this_mark_region) <- c("chr", "start", "end", "name")
       this_mark_region$start <- this_mark_region$start + 1
+      this_mark_region$end <- this_mark_region$end + 1
     } else {
       this_mark_region <- NULL
     }
@@ -343,7 +344,7 @@ epiplot_model <- function(model, chr, start, end) {
       data.frame(
         Chr = model[i, 1],
         Start = model[i, 2] + 1,
-        End = model[i, 3],
+        End = model[i, 3] + 1,
         ID = paste(tmp_model_info[i, 2:ncol(tmp_model_info)], collapse = "_"),
         Type = tmp_model_info[i, 1],
         Strand = model[i, 6]
