@@ -65,13 +65,15 @@ ggepitracks2 <- function(locus_file,
   for (track_idx in 1:nrow(track_info)) {
     track_name <-  track_info[track_idx, "track_name"]
     if (track_info[track_idx, "track_type"] == "BS-seq") {
-      bsseq_info <- read_tcsv(bsseq_conf,
-                              header = F,
-                              col.names = c("track_name",
-                                            "CG",
-                                            "CHG",
-                                            "CHH",
-                                            "C_context_file"))
+      bsseq_info <- read_tcsv(
+        bsseq_conf,
+        header = F,
+        col.names = c("track_name",
+                      "CG",
+                      "CHG",
+                      "CHH",
+                      "C_context_file")
+      )
       track_idx_in_bsseq <-
         which(track_name == bsseq_info$track_name)
       if (track_info[track_idx, "track_file"] == "All") {
@@ -450,8 +452,8 @@ ggepitracks2 <- function(locus_file,
     ggsave(
       paste0(dir_name, locus_name, ".pdf"),
       p_merge,
-      width = 6,
-      height = 4
+      width = unit(3, "cm"),
+      height = unit(2, "cm")
     )
     
     # clean tmp files
@@ -500,7 +502,7 @@ epiplot_model <- function(model, chr, start, end) {
       )
     model_info <- rbind(model_info, tmp)
   }
-  model_info <- model_info[order(model_info$Start),]
+  model_info <- model_info[order(model_info$Start), ]
   
   # make draw data
   
@@ -515,24 +517,24 @@ epiplot_model <- function(model, chr, start, end) {
   model_info$End <-
     unlist(lapply(model_info$End, function(x)
       min(x, end)))
-  model_info <- model_info[model_info$Start <= model_info$End, ]
+  model_info <- model_info[model_info$Start <= model_info$End,]
   
   # split body and end
   model_info_group_first <-
-    model_info[!duplicated(model_info$Group), ]
+    model_info[!duplicated(model_info$Group),]
   model_info_des <-
-    model_info[order(model_info$Start, decreasing = T),]
+    model_info[order(model_info$Start, decreasing = T), ]
   model_info_group_last <-
-    model_info_des[!duplicated(model_info_des$Group), ]
+    model_info_des[!duplicated(model_info_des$Group),]
   model_info_group_last <-
-    model_info_group_last[order(model_info_group_last$Group), ]
+    model_info_group_last[order(model_info_group_last$Group),]
   model_info_group_length <-
     model_info_group_last$End - model_info_group_first$Start
   
   for (group_idx in 1:nrow(model_info_group_first)) {
     if (model_info_group_first[group_idx, 6] == "+") {
-      model_info_group_first[group_idx,] <-
-        model_info_group_last[group_idx,]
+      model_info_group_first[group_idx, ] <-
+        model_info_group_last[group_idx, ]
     }
   }
   model_info_end <- data.frame()
@@ -571,25 +573,26 @@ epiplot_model <- function(model, chr, start, end) {
   }
   
   # extract three context
-  model_info_name <- model_info[!duplicated(model_info$Group), ]
-  model_info_CDS <- model_info[model_info$Type == "CDS", ]
-  model_info_intron <- model_info[model_info$Type == "Intron",]
+  model_info_name <- model_info[!duplicated(model_info$Group),]
+  model_info_CDS <- model_info[model_info$Type == "CDS",]
+  model_info_intron <- model_info[model_info$Type == "Intron", ]
   model_info_intron$Mid <-
     rowMeans(model_info_intron[c("Start", "End")])
   model_info_UTR <-
     model_info[model_info$Type == "5UTR" |
-                 model_info$Type == "3UTR", ]
+                 model_info$Type == "3UTR",]
   model_info_end_CDS <-
-    model_info_end[model_info_end$Type == "CDS", ]
+    model_info_end[model_info_end$Type == "CDS",]
   model_info_end_UTR <-
     model_info_end[model_info_end$Type == "5UTR" |
-                     model_info_end$Type == "3UTR", ]
+                     model_info_end$Type == "3UTR",]
   
   # plot
   # NOTE: in ggplot2, 1 linewidth or size is about 2.141959pt
   # (https://blog.csdn.net/weixin_43250801/article/details/130049894),
   # so commonly used 0.75pt line can be set as 0.35 linewidth
-  # 7pt text can be set as 3.27 size
+  # 7pt text can be set as 7 size (wrong!)
+  # 7pt test should be set as size=7 due to pt in unit
   p_model <-
     ggplot() +
     scale_x_continuous(
@@ -606,24 +609,24 @@ epiplot_model <- function(model, chr, start, end) {
       axis.title.x = element_blank(),
       axis.line.x = element_line(color = "black", linewidth = 0.35),
       axis.ticks.x = element_line(color = "black", linewidth = 0.35),
-      axis.text.x = element_text(color = "black", size = 2.34),
-      axis.line.y = element_line(color = "black", linewidth = 0.35),
-      axis.ticks.y = element_line(color = "black", linewidth = 0.35),
-      axis.ticks.length.y = unit(2, "pt"),
-      axis.text.y = element_text(color = "black", size = 2.34),
-      axis.title.y = element_text(color = "black", size = 3.27),
+      axis.ticks.length.x = unit(2, "pt"),
+      axis.text.x = element_text(color = "black", size = 5),
+      axis.title.y = element_text(color = "black", size = 7),
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y =  element_blank(),
       panel.grid = element_blank(),
       panel.background = element_blank(),
       panel.border = element_blank(),
       plot.background = element_blank(),
       plot.margin = margin()
-    ) + ylab("Gene") + geom_text(
+    ) + ylab("Genes") + geom_text(
       data = model_info_name,
       mapping = aes(x = Start,
                     y = Group - 0.2,
                     label = ID),
       color = "black",
-      size = 3.27
+      size = 1
     ) + geom_rect(
       data = model_info_CDS,
       mapping = aes(
@@ -633,7 +636,8 @@ epiplot_model <- function(model, chr, start, end) {
         ymax = Group - 0.4
       ),
       color = "black",
-      fill = "black"
+      fill = "black",
+      linewidth = 0.35
     ) + geom_segment(
       data = model_info_intron,
       mapping = aes(
@@ -643,7 +647,7 @@ epiplot_model <- function(model, chr, start, end) {
         yend = Group - 0.4
       ),
       color = "black",
-      linewidth = 0.5
+      linewidth = 0.35
     ) + geom_segment(
       data = model_info_intron,
       mapping = aes(
@@ -653,7 +657,7 @@ epiplot_model <- function(model, chr, start, end) {
         yend = Group - 0.4
       ),
       color = "black",
-      linewidth = 0.5
+      linewidth = 0.35
     ) + geom_rect(
       data = model_info_UTR,
       mapping = aes(
@@ -663,21 +667,24 @@ epiplot_model <- function(model, chr, start, end) {
         ymax = Group - 0.4
       ),
       color = "black",
-      fill = "grey"
+      fill = "grey",
+      linewidth = 0.35
     ) + geom_polygon(
       data = model_info_end_CDS,
       mapping = aes(x = X,
                     y = Y,
                     group = Group),
       color = "black",
-      fill = "black"
+      fill = "black",
+      linewidth = 0.35
     ) + geom_polygon(
       data = model_info_end_UTR,
       mapping = aes(x = X,
                     y = Y,
                     group = Group),
       color = "black",
-      fill = "grey"
+      fill = "grey",
+      linewidth = 0.35
     )
   
   # return
@@ -701,7 +708,7 @@ epiplot_cov <- function(bw_df,
                        expand = c(0, 0)) +
     scale_y_continuous(
       limits = c(y_min, y_max),
-      breaks = c(-1, -0.5, 0, 0.5, 1),
+      breaks = c(-1,-0.5, 0, 0.5, 1),
       expand = c(0, 0)
     ) +
     theme_classic() + theme(
@@ -709,11 +716,11 @@ epiplot_cov <- function(bw_df,
       axis.line.x = element_blank(),
       axis.ticks.x = element_blank(),
       axis.text.x = element_blank(),
+      axis.title.y = element_text(color = "black", size = 7),
       axis.line.y = element_line(color = "black", linewidth = 0.35),
       axis.ticks.y = element_line(color = "black", linewidth = 0.35),
       axis.ticks.length.y = unit(2, "pt"),
-      axis.text.y = element_text(color = "black", size = 2.34),
-      axis.title.y = element_text(color = "black", size = 3.27),
+      axis.text.y = element_text(color = "black", size = 5),
       panel.grid = element_blank(),
       panel.background = element_blank(),
       panel.border = element_blank(),
@@ -752,7 +759,7 @@ epiplot_cov <- function(bw_df,
           label = name
         ),
         color = "black",
-        size = 3.27
+        size = 7
       )
   }
   
@@ -776,7 +783,7 @@ epiplot_bsseq <- function(bw_df,
                        expand = c(0, 0)) +
     scale_y_continuous(
       limits = c(y_min, y_max),
-      breaks = c(-1, -0.5, 0, 0.5, 1),
+      breaks = c(-1,-0.5, 0, 0.5, 1),
       expand = c(0, 0)
     ) +
     theme_classic() + theme(
@@ -784,11 +791,11 @@ epiplot_bsseq <- function(bw_df,
       axis.line.x = element_blank(),
       axis.ticks.x = element_blank(),
       axis.text.x = element_blank(),
+      axis.title.y = element_text(color = "black", size = 7),
       axis.line.y = element_line(color = "black", linewidth = 0.35),
       axis.ticks.y = element_line(color = "black", linewidth = 0.35),
       axis.ticks.length.y = unit(2, "pt"),
-      axis.text.y = element_text(color = "black", size = 2.34),
-      axis.title.y = element_text(color = "black", size = 3.27),
+      axis.text.y = element_text(color = "black", size = 5),
       panel.grid = element_blank(),
       panel.background = element_blank(),
       panel.border = element_blank(),
@@ -827,7 +834,7 @@ epiplot_bsseq <- function(bw_df,
           label = name
         ),
         color = "black",
-        size = 3.27
+        size = 7
       )
   }
   
@@ -852,7 +859,7 @@ epiplot_bsseq_multi <- function(CG_df,
                        expand = c(0, 0)) +
     scale_y_continuous(
       limits = c(y_min, y_max),
-      breaks = c(-1, -0.5, 0, 0.5, 1),
+      breaks = c(-1,-0.5, 0, 0.5, 1),
       expand = c(0, 0)
     ) +
     theme_classic() + theme(
@@ -860,11 +867,11 @@ epiplot_bsseq_multi <- function(CG_df,
       axis.line.x = element_blank(),
       axis.ticks.x = element_blank(),
       axis.text.x = element_blank(),
+      axis.title.y = element_text(color = "black", size = 7),
       axis.line.y = element_line(color = "black", linewidth = 0.35),
       axis.ticks.y = element_line(color = "black", linewidth = 0.35),
       axis.ticks.length.y = unit(2, "pt"),
-      axis.text.y = element_text(color = "black", size = 2.34),
-      axis.title.y = element_text(color = "black", size = 3.27),
+      axis.text.y = element_text(color = "black", size = 5),
       panel.grid = element_blank(),
       panel.background = element_blank(),
       panel.border = element_blank(),
@@ -926,7 +933,7 @@ epiplot_bsseq_multi <- function(CG_df,
           label = name
         ),
         color = "black",
-        size = 3.27
+        size = 7
       )
   }
   
