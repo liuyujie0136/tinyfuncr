@@ -32,9 +32,9 @@ devtools::install_github("liuyujie0136/tinyfuncr")
 
 * In `tidyverse`: `ggplot2`, `dplyr`, `stringr`, `tidyr`, `purrr`
 * Data: `magrittr`, `reshape2`, `data.table`
-* `ggplot2` extensions: `ggstatsplot`, `ggrepel`, `ggsignif`, `ggtree`, `patchwork`, `cowplot`
+* `ggplot2` extensions: `ggstatsplot`, `ggrepel`, `ggsignif`, `ggtree`, `patchwork`, `cowplot`, `scales`, `ggh4x`
 * Color: `RColorBrewer`, `paletteer`
-* Bio: `GenomicRanges`, `rtracklayer`
+* Bioinfo: `GenomicRanges`, `rtracklayer`
 * Others: `gmp`, `rlang`, `ipmisc`, `parallel`
 
 ## Bugs

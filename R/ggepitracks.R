@@ -99,7 +99,6 @@ ggepitracks <- function(locus_file,
     # plot gene model for this locus
     p_model <- epiplot_model(
       model = this_locus_model,
-      chr = chrom,
       start = begin,
       end = end
     )
@@ -334,7 +333,7 @@ ggepitracks <- function(locus_file,
 
 
 ######################### plot tracks for gene model #########################
-epiplot_model <- function(model, chr, start, end) {
+epiplot_model <- function(model, start, end) {
   # parse model info
   tmp_model_info <-
     model[[4]] %>% stringr::str_split("_") %>% as.data.frame() %>% t() %>% as.data.frame()

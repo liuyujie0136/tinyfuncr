@@ -36,11 +36,11 @@ ggepitracks2 <- function(locus_file,
   .check_windows()
   .check_bedtools()
   .check_bigWigToBedGraph()
-  
+
   # make output dirs
   dir_name <- paste0(out_dir, "/")
   system(paste0("mkdir -p ", dir_name, "/tmp"))
-  
+
   # read in and parse track info
   track_info <-
     read_tcsv(
@@ -56,12 +56,12 @@ ggepitracks2 <- function(locus_file,
         "group"
       )
     )
-  
+
   # calculate plot height according to ntracks if not provided
   if (is.null(height)) {
     height <- 6 * nrow(track_info) + 10
   }
-  
+
   # read loci info
   loci <-
     read_tcsv(
@@ -69,7 +69,7 @@ ggepitracks2 <- function(locus_file,
       header = F,
       col.names = c("chr", "start", "end", "name")
     )
-  
+
   # convert each track into bedgraph format, and intersect with loci to plot
   for (track_idx in 1:nrow(track_info)) {
     track_name <-  track_info[track_idx, "track_name"]
@@ -277,7 +277,7 @@ ggepitracks2 <- function(locus_file,
       }
     }
   }
-  
+
   # loop against each locus and plot tracks
   for (locus_idx in 1:nrow(loci)) {
     # parse info of this locus and make granges
@@ -285,13 +285,13 @@ ggepitracks2 <- function(locus_file,
     begin <- loci[locus_idx, 2]
     end <- loci[locus_idx, 3]
     locus_name <- loci[locus_idx, 4]
-    
+
     write_tcsv(
       data.frame(chrom, as.character(begin), as.character(end)),
       file = paste0(dir_name, "/tmp/tmp_locus.bed"),
       col.names = F
     )
-    
+
     # extract annotation region within this locus
     if (!is.null(ann_region)) {
       system(
@@ -316,7 +316,7 @@ ggepitracks2 <- function(locus_file,
     } else {
       this_mark_region <- NULL
     }
-    
+
     # extract gene model within this locus
     system(
       paste0(
@@ -331,17 +331,16 @@ ggepitracks2 <- function(locus_file,
     )
     this_locus_model <-
       read_tcsv(paste0(dir_name, "/tmp/tmp_model.bed"), header = F)
-    
+
     # plot gene model for this locus
     p_model <- epiplot_model(
       model = this_locus_model,
-      chr = chrom,
       start = begin,
       end = end
     )
     p_track <- list()
     p_track[[1]] <- p_model
-    
+
     # loop against each track and plot for this locus
     for (track_idx in 1:nrow(track_info)) {
       track_name <-  track_info[track_idx, "track_name"]
@@ -364,7 +363,7 @@ ggepitracks2 <- function(locus_file,
           bg_this_locus <- bg[bg$name == locus_name, c(2, 3, 4, 5)]
           bg_this_locus$start <- bg_this_locus$start + 1
           bg_this_locus$end <- bg_this_locus$end + 1
-          
+
           # plot bsseq tracks
           p_track[[track_idx + 1]] <-
             epiplot_bsseq(
@@ -398,10 +397,10 @@ ggepitracks2 <- function(locus_file,
               bg[bg$name == locus_name, c(2, 3, 4, 5)]
             bg_this_locus$start <- bg_this_locus$start + 1
             bg_this_locus$end <- bg_this_locus$end + 1
-            
+
             bglist_this_locus[[ctype]] <- bg_this_locus
           }
-          
+
           # plot multi C type bsseq
           p_track[[track_idx + 1]] <-
             epiplot_bsseq_multi(
@@ -433,7 +432,7 @@ ggepitracks2 <- function(locus_file,
           bg[bg$name == locus_name, c(2, 3, 4, 5)]
         bg_this_locus$start <- bg_this_locus$start + 1
         bg_this_locus$end <- bg_this_locus$end + 1
-        
+
         # plot coverage
         p_track[[track_idx + 1]] <-
           epiplot_cov(
@@ -449,7 +448,7 @@ ggepitracks2 <- function(locus_file,
           )
       }
     }
-    
+
     # merge plots
     p_merge <-
       cowplot::plot_grid(
@@ -465,7 +464,7 @@ ggepitracks2 <- function(locus_file,
       width = width,
       units = "mm"
     )
-    
+
     # clean tmp files
     #system(paste0("rm -rf ", dir_name, "/tmp"))
   }
@@ -495,7 +494,7 @@ ggepitracks2 <- function(locus_file,
 
 
 ######################### plot tracks for gene model #########################
-epiplot_model <- function(model, chr, start, end) {
+epiplot_model <- function(model, start, end) {
   # parse model info
   tmp_model_info <-
     model[[4]] %>% stringr::str_split("_") %>% as.data.frame() %>% t() %>% as.data.frame()
@@ -513,9 +512,9 @@ epiplot_model <- function(model, chr, start, end) {
     model_info <- rbind(model_info, tmp)
   }
   model_info <- model_info[order(model_info$Start),]
-  
+
   # make draw data
-  
+
   # parse coord
   genes_to_plot <- unique(model_info$ID)
   model_info$Group <-
@@ -528,7 +527,7 @@ epiplot_model <- function(model, chr, start, end) {
     unlist(lapply(model_info$End, function(x)
       min(x, end)))
   model_info <- model_info[model_info$Start <= model_info$End,]
-  
+
   # split body and end
   model_info_group_first <-
     model_info[!duplicated(model_info$Group),]
@@ -540,7 +539,7 @@ epiplot_model <- function(model, chr, start, end) {
     model_info_group_last[order(model_info_group_last$Group),]
   model_info_group_length <-
     model_info_group_last$End - model_info_group_first$Start
-  
+
   for (group_idx in 1:nrow(model_info_group_first)) {
     if (model_info_group_first[group_idx, 6] == "+") {
       model_info_group_first[group_idx,] <-
@@ -581,7 +580,7 @@ epiplot_model <- function(model, chr, start, end) {
               Group = rep(model_info_group_first[group_idx, "Group"], 5)
             ))
   }
-  
+
   # extract three context
   model_info_name <- model_info[!duplicated(model_info$Group),]
   model_info_CDS <- model_info[model_info$Type == "CDS",]
@@ -596,7 +595,7 @@ epiplot_model <- function(model, chr, start, end) {
   model_info_end_UTR <-
     model_info_end[model_info_end$Type == "5UTR" |
                      model_info_end$Type == "3UTR",]
-  
+
   #### Note for ggplot2 ####
   # In ggplot2, 1 linewidth or size is about 2.141959pt
   # (https://blog.csdn.net/weixin_43250801/article/details/130049894),
@@ -605,7 +604,7 @@ epiplot_model <- function(model, chr, start, end) {
   # 7pt text can be set as 3.27 size (BUT wrong!),
   # however, 7pt text should be set as size=7 due to pt in unit;
   # in geom_text, size=1 means 3pt (?)
-  
+
   # plot gene models
   p_model <-
     ggplot() +
@@ -711,7 +710,7 @@ epiplot_model <- function(model, chr, start, end) {
       fill = "grey",
       linewidth = 0.233
     )
-  
+
   # return
   p_model
 }
@@ -777,7 +776,7 @@ epiplot_cov <- function(bw_df,
       color = NA,
       fill = track_color
     )
-  
+
   if (!is.null(ann_df)) {
     p <- p +
       geom_rect(
@@ -802,7 +801,7 @@ epiplot_cov <- function(bw_df,
         size = 6
       )
   }
-  
+
   p
 }
 
@@ -867,7 +866,7 @@ epiplot_bsseq <- function(bw_df,
       color = NA,
       fill = track_color
     )
-  
+
   if (!is.null(ann_df)) {
     p <- p +
       geom_rect(
@@ -892,7 +891,7 @@ epiplot_bsseq <- function(bw_df,
         size = 6
       )
   }
-  
+
   p
 }
 
@@ -981,7 +980,7 @@ epiplot_bsseq_multi <- function(CG_df,
       fill = "#00B050",
       alpha = 1
     )
-  
+
   if (!is.null(ann_df)) {
     p <- p +
       geom_rect(
@@ -1006,6 +1005,6 @@ epiplot_bsseq_multi <- function(CG_df,
         size = 6
       )
   }
-  
+
   p
 }

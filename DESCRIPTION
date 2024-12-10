@@ -4,7 +4,7 @@ Title: tiny R functions
 Description: A collection of tiny R functions for handy use
 Author: Yujie Liu
 Maintainer: Yujie Liu <liuyujiekindle@163.com>
-Version: 1.0.0
+Version: 1.1.0
 Imports: 
   dplyr,
   stringr,
@@ -25,7 +25,9 @@ Imports:
   GenomicRanges,
   ggplot2,
   RColorBrewer,
-  cowplot
+  cowplot,
+  scales,
+  ggh4x
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
